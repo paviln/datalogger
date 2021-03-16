@@ -1,15 +1,13 @@
-import { Controller, Param, Body, Get, Post, Put, Delete } from 'routing-controllers';
-import mongoose from 'mongoose';
+import { JsonController, Param, Body, Get, Post, Put, Delete } from 'routing-controllers';
 
-import Logger from '../models/logger';
+import { ILogger, Loggers } from '../models/logger';
 
-@Controller('/logger')
+@JsonController('/logger')
 export class LoggerController {
     @Post()
-    save() {
-        var logger:mongoose.Document = new Logger({ test: 'test'});
-        logger.save();
-        
-        return { status: "success"};
+    post(@Body() logger: ILogger) {
+        Loggers.create(logger, (err, small) => {
+            if (err) return "lol"
+        });
     }
 }
