@@ -1,13 +1,23 @@
-import { JsonController, Param, Body, Get, Post, Put, Delete } from 'routing-controllers';
+import { NextFunction, Request, Response } from 'express';
 
-import { ILogger, Loggers } from '../models/logger';
+import Log, { ILog } from '../models/log';
+import Logger, { ILogger } from '../models/logger';
 
-@JsonController('/logger')
-export class LoggerController {
-    @Post()
-    post(@Body() logger: ILogger) {
-        Loggers.create(logger, (err, small) => {
-            if (err) return "lol"
-        });
-    }
+export default class LoggerController {
+    async create(req: Request, res: Response, next: NextFunction) {
+        let newLogger: ILogger = new Logger(req.body);
+    
+        let exsist: Boolean = await Logger.exists({ _id: newLogger._id });
+    
+        if (!exsist) {
+            newLogger.save((err, log) => {
+                if (err) {
+                    res.send(err);
+                }
+                res.status(201).json(log);
+            });
+        } else {
+            res.status(404).send();
+        }
+    } 
 }
