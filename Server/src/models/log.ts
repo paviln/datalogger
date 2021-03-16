@@ -1,27 +1,29 @@
-import mongoose, { Document } from 'mongoose';
-
-export class Log {
-    temperature: number;
-    air_humidity: number;
-    soil_humidity: number;
-    timestamp: Date;
-    loggerId: mongoose.Schema.Types.ObjectId;
-}
+import mongoose, { Document, Schema } from 'mongoose';
 
 export interface ILog extends Document {
-    temperature: Number,
-    air_humidity: Number,
-    soil_humidity: Number,
+    temperature: number,
+    air_humidity: number,
+    soil_humidity: number,
     timestamp: Date,
-    loggerId: mongoose.Schema.Types.ObjectId
+    loggerId: Schema.Types.ObjectId
 }
 
-const LogSchema = new mongoose.Schema({
-    temperature: Number,
-    air_humidity: Number,
-    soil_humidity: Number,
-    timestamp: Date,
-    loggerId: { type: mongoose.Schema.Types.ObjectId }
-});
+const LogSchema: Schema = new Schema(
+    {
+        temperature: {
+            type: Number,
+            required: true
+        },
+        air_humidity: Number,
+        soil_humidity: Number,
+        loggerId: { 
+            type: Schema.Types.ObjectId,
+            ref: 'Loggers'
+        }
+    },
+    {
+        timestamps: true
+    }
+);
 
-export const Logs = mongoose.model<ILog>('Log', LogSchema);
+export default mongoose.model<ILog>('Log', LogSchema);

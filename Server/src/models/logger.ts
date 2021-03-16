@@ -1,15 +1,27 @@
-import mongoose from 'mongoose';
+import mongoose, { Document, Schema } from 'mongoose';
+
+export class Logger {
+    minimum_temperature: number;
+    logs: mongoose.Schema.Types.ObjectId[];
+    plants: mongoose.Schema.Types.ObjectId[];
+}
+
+export interface ILogger extends Document {
+    minimum_temperature: Number,
+    logs: mongoose.Schema.Types.ObjectId[],
+    plants: mongoose.Schema.Types.ObjectId[],
+}
 
 const LoggerSchema = new mongoose.Schema({
     minimum_temperature: String,
     logs: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Log'
+        type: Schema.Types.ObjectId,
+        ref: 'Logs'
     }],
     plants: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Plant'
+        type: Schema.Types.ObjectId,
+        ref: 'Plants'
     }]
 });
 
-export default mongoose.model('Logger', LoggerSchema);
+export const Loggers =  mongoose.model<ILogger>('Loggers', LoggerSchema);

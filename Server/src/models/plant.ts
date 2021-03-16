@@ -1,8 +1,18 @@
-import mongoose from 'mongoose';
+import mongoose, { Document, Schema } from 'mongoose';
 
-const PlantSchema = new mongoose.Schema({
+export class Plant {
+    test: string;
+    loggerId: mongoose.Types._ObjectId;
+}
+
+export interface IPlant extends Document {
+    test: String,
+    loggerId: mongoose.Types._ObjectId
+}
+
+const PlantSchema = new Schema({
     test: String,
     loggerId: mongoose.Types._ObjectId
 });
 
-export default mongoose.model('Plant', PlantSchema);
+export const Plants = mongoose.model<IPlant>('Plants', PlantSchema);
