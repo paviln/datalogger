@@ -10,7 +10,10 @@ export interface ILog extends Document {
 
 const LogSchema: Schema = new Schema(
     {
-        temperature: Number,
+        temperature: {
+            type: Number,
+            required: true
+        },
         air_humidity: Number,
         soil_humidity: Number,
         loggerId: { 

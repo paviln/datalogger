@@ -1,11 +1,14 @@
-import { JsonController, Req, Param, Body, BodyParam, Get, Post, Put, Delete, NotFoundError } from 'routing-controllers'; import mongoose from 'mongoose';
+import { Request, Response } from 'express';
 
 import Log, { ILog } from '../models/log';
 
-@JsonController('/log')
-export class LogController {
-    @Post()
-    post(@Body() log: ILog) {
-        return Log.create(log);
-    }
-}
+export const create = async (req: Request, res: Response, next:any) => {
+    let newLog: ILog = new Log(req.body);
+
+    newLog.save((err, log) => {
+        if (err) {
+            res.send(err);
+        }
+        res.json(log);
+    });
+} 
