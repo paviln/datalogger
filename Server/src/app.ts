@@ -1,13 +1,21 @@
-import "reflect-metadata";
-import { createExpressServer } from 'routing-controllers';
-import mongose from 'mongoose';
+import bodyParser from 'body-parser';
+import express from 'express';
+import helmet from 'helmet';
+import mongoose from 'mongoose';
 
-const app = createExpressServer({
-    routePrefix: '/api',
-    controllers: [__dirname + '/controllers/*.js'],
-});
+import routes from './routes'
 
-mongose.connect('localhost')
+const app = express();
+
+// Parse body params and attache them to req.body.
+app.use(bodyParser.urlencoded({extended : true}));
+app.use(bodyParser.json());
+
+app.use(helmet());
+
+app.use('/api', routes);
+
+mongoose.connect('mongodb://localhost:27017/datalogger', {useNewUrlParser: true})
     .then(result => {
         app.listen(3000, () => {
             console.log('App listening on port 3000.');
