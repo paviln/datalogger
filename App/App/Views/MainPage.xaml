@@ -1,8 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+    
+<ContentPage Title="Menu" xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="App.MainPage">
 
-    
-
+    <StackLayout>
+        <Button Command="{Binding RegisterPageNavCommand}" Text="Register Plant"/>
+        <Button Command="{Binding SecondPageNavCommand}" Text="Show Data"/>
+        <Button Command="{Binding FindPlantPageNavCommand}" Text="Find Plant"/>
+    </StackLayout>
+   
 </ContentPage>

@@ -11,20 +11,19 @@ namespace App.ViewsModel
 {
    public class RegisterViewModel : BaseViewModel
     {
-       public ICommand SecondPageNavCommand { get; set; }
-        //public ObservableCollection<string> ShowData { get; set; }
+         public ICommand RegisterPageNavCommand { get; set; }
+
         public RegisterViewModel(INavigation navigation) : base(navigation)
         {
-           // SecondPageNavCommand = new Command(SecondPageNavCommand);
-            //ShowData = new ObservableCollection<string>();
-            SecondPageNavCommand = new Command(async () => await OnNavSecondPage());
+
+              RegisterPageNavCommand = new Command(async () => await OnNavRegisterPage());
         }
 
-        private async Task OnNavSecondPage()
+         private async Task OnNavRegisterPage()
 
         {
-            await Navigation.PushAsync(new ShowData());
-            
+         await Navigation.PushAsync(new RegisterPage());
+
         }
     }
 }

@@ -1,12 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+<ContentPage Title="Data" xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="App.Views.ShowData">
     <ContentPage.Content>
-        <StackLayout>
-            <Frame BackgroundColor="Brown" Padding="2,2,2,2" CornerRadius="0">
-                <Label Text="Data" HorizontalTextAlignment="Center" TextColor="White" FontSize="36"/>
-            </Frame>
+        <StackLayout Padding="5">
+            
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

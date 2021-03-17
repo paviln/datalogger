@@ -1,12 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+<ContentPage Title="Register Plant" xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="App.Views.RegisterPage">
 
     <StackLayout Padding="5">
-        <Frame BackgroundColor="Green" Padding="2,2,2,2" CornerRadius="0">
-            <Label Text="Register Plant" HorizontalTextAlignment="Center" TextColor="White" FontSize="36"/>
-        </Frame>
+        
         <Label Text="ID"/>
         <Entry Text="{Binding ID}" />
         <Label Text="Name"/>
@@ -23,7 +21,7 @@
             </Grid.ColumnDefinitions>
             <Button Text="Save" Grid.Column="0"/>
             <Button Text="Photo" Grid.Column="1"/>
-            <Button Command="{Binding SecondPageNavCommand}" Text="Show Data" Grid.Column="2"/>
+            
         </Grid>
         <Image x:Name="MyImage" HeightRequest="300" WidthRequest="300"/>
     </StackLayout>

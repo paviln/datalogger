@@ -13,10 +13,12 @@ namespace App.ViewsModel
     {
         public MainViewModel(INavigation navigation) : base(navigation)
         {
-            // SecondPageNavCommand = new Command(SecondPageNavCommand);
-            //ShowData = new ObservableCollection<string>();
+            
             SecondPageNavCommand = new Command(async () => await OnNavSecondPage());
+            RegisterPageNavCommand = new Command(async () => await OnNavRegisterPage());
+            FindPlantPageNavCommand = new Command(async () => await OnNavFindPlantPage());
         }
+        //Show data page
         private async Task OnNavSecondPage()
 
         {
@@ -24,5 +26,23 @@ namespace App.ViewsModel
 
         }
         public Command SecondPageNavCommand { get; }
+
+        // Register Page
+        private async Task OnNavRegisterPage()
+
+        {
+            await Navigation.PushAsync(new RegisterPage());
+
+        }
+        public Command RegisterPageNavCommand { get; }
+
+        // Find Plant Page
+        private async Task OnNavFindPlantPage()
+
+        {
+            await Navigation.PushAsync(new FindPlantPage());
+
+        }
+        public Command FindPlantPageNavCommand { get; }
     }
 }
