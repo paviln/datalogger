@@ -1,10 +1,12 @@
 import express from "express";
-import LoggerController from "../controllers/logger.controller";
+import * as loggerController from "../controllers/logger.controller";
 
 const router = express.Router();
-const loggerController = new LoggerController();
 
 router.route('/')
     .post(loggerController.create);
+
+router.route('/warnings')
+.post(loggerController.findWarningsInLogs);
 
 export default router;

@@ -6,16 +6,21 @@ export interface ILogger extends Document {
     plants: Schema.Types.ObjectId[],
 }
 
-const LoggerSchema = new Schema({
-    minimum_temperature: String,
-    logs: [{
-        type: Schema.Types.ObjectId,
-        ref: 'Logs'
-    }],
-    plants: [{
-        type: Schema.Types.ObjectId,
-        ref: 'Plants'
-    }]
-});
+const LoggerSchema = new Schema(
+    {
+        minimum_temperature: String,
+        logs: [{
+            type: Schema.Types.ObjectId,
+            ref: 'Logs'
+        }],
+        plants: [{
+            type: Schema.Types.ObjectId,
+            ref: 'Plants'
+        }],
+    },
+    {
+        timestamps: true
+    }
+);
 
 export default mongoose.model<ILogger>('Loggers', LoggerSchema);

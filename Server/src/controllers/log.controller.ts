@@ -3,7 +3,7 @@ import { NextFunction, Request, Response } from 'express';
 import Log, { ILog } from '../models/log';
 import Logger from '../models/logger';
 
-export const create = async (req: Request, res: Response, next: NextFunction) => {
+const create = async (req: Request, res: Response, next: NextFunction) => {
     let newLog: ILog = new Log(req.body);
 
     let doesLoggerExsist: Boolean = await Logger.exists({ _id: newLog.loggerId });
@@ -18,4 +18,6 @@ export const create = async (req: Request, res: Response, next: NextFunction) =>
     } else {
         res.status(404).send();
     }
-} 
+};
+
+export { create };
