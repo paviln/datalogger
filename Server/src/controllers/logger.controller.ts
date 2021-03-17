@@ -20,6 +20,17 @@ const create = async (req: Request, res: Response, next: NextFunction): Promise<
     }
 };
 
+const update = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    var id = '312312312';
+    await Logger.findByIdAndUpdate(req.body._id, req.body, { new: true }, (err, doc) => {
+        if (err) {
+            res.send(err);
+        } else {
+            res.status(201).json(doc);
+        }
+    });
+};
+
 const findWarningsInLogs = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     let exsist: Boolean = await Logger.exists({ _id: req.body.loggerId });
     if (exsist) {
@@ -44,4 +55,4 @@ const getLogsInPeriod = async(period: number): Promise<ILog[]> => {
     return logs;
 }
 
-export { create, findWarningsInLogs };
+export { create, update, findWarningsInLogs };
