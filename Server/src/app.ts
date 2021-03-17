@@ -2,8 +2,11 @@ import bodyParser from 'body-parser';
 import express from 'express';
 import helmet from 'helmet';
 import mongoose from 'mongoose';
+import dotenv from 'dotenv';
 
 import routes from './routes'
+
+dotenv.config({ path: __dirname + '/../src/.env'});
 
 const app = express();
 
@@ -19,10 +22,10 @@ app.use('/api', routes);
 // by default, you need to set it to false.
 mongoose.set('useFindAndModify', false);
 
-mongoose.connect('mongodb://localhost:27017/datalogger', {useNewUrlParser: true})
+mongoose.connect('mongodb://'+ process.env.MONGODB_HOST +':' + process.env.MONGODB_PORT + '/' + process.env.MONGODB_DATABASE, {useNewUrlParser: true})
     .then(result => {
-        app.listen(3000, () => {
-            console.log('App listening on port 3000.');
+        app.listen(process.env.EXPRESS_PORT, () => {
+            console.log('App listening on port ' + process.env.EXPRESS_PORT + '.');
         });
     })
     .catch(error => console.log(error));
