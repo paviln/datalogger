@@ -1,4 +1,7 @@
-﻿using System;
+﻿using App.ViewsModel;
+using Plugin.Media;
+using Plugin.Media.Abstractions;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -13,6 +16,9 @@ namespace App
         public MainPage()
         {
             InitializeComponent();
+            BindingContext = new MainViewModel(Navigation);
         }
+        
+        
     }
 }
