@@ -1,4 +1,5 @@
-﻿using App.Views;
+﻿using App.Services;
+using App.Views;
 using System;
 using System.IO;
 using System.Threading.Tasks;
@@ -38,6 +39,8 @@ namespace App.ViewsModels
         }
         async Task TakePhotoAsync()
         {
+            Console.WriteLine(RegisterService.GetPlant().Result.Name);
+
             try
             {
                 var photo = await MediaPicker.CapturePhotoAsync();

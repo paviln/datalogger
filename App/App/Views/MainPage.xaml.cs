@@ -1,6 +1,4 @@
 ﻿using App.ViewsModels;
-using Plugin.Media;
-using Plugin.Media.Abstractions;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -17,8 +15,6 @@ namespace App
         {
             InitializeComponent();
             BindingContext = new MainViewModel(Navigation);
-        }
-        
-        
+        }       
     }
 }
