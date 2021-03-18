@@ -20,10 +20,10 @@
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <Button Text="Save" Grid.Column="0"/>
-            <Button Text="Photo" Grid.Column="1"/>
+            <Button Text="Photo" Command="{Binding TakePhotoCommand}" Grid.Column="1"/>
             
         </Grid>
-        <Image x:Name="MyImage" HeightRequest="300" WidthRequest="300"/>
+        <Image Source="{Binding Image}"  HeightRequest="300" WidthRequest="300"/>
     </StackLayout>
 
 </ContentPage>

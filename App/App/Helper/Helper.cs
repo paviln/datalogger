@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace App.ViewsModel
+namespace App.Helper
 {
-    public class PhotoViewModel
+    public class Helper
     {
     }
-   
 }
