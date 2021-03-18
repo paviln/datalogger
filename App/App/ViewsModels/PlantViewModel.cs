@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace App.ViewsModel
+namespace App.ViewsModels
 {
     public class PlantViewModel 
     {

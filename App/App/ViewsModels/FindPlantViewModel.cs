@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
 
-namespace App.ViewsModel
+namespace App.ViewsModels
 {
    public class FindPlantViewModel : BaseViewModel
     {

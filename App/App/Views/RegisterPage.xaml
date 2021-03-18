@@ -4,12 +4,10 @@
              x:Class="App.Views.RegisterPage">
 
     <StackLayout Padding="5">
-        
         <Label Text="ID"/>
         <Entry Text="{Binding ID}" />
         <Label Text="Name"/>
         <Entry Text="{Binding Name}"/>
-        
         <Grid >
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
@@ -21,7 +19,6 @@
             </Grid.ColumnDefinitions>
             <Button Text="Save" Grid.Column="0"/>
             <Button Text="Photo" Command="{Binding TakePhotoCommand}" Grid.Column="1"/>
-            
         </Grid>
         <Image Source="{Binding Image}"  HeightRequest="300" WidthRequest="300"/>
     </StackLayout>
