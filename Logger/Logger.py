@@ -22,7 +22,7 @@ GPIO.setwarnings(False)
 
 #Global Variables
 delay = 1
-max_hum = 450.0 #Maximum value of Humidity, sensor calibrated. 
+max_hum = 650.0 #Maximum value of Humidity, sensor calibrated. 
 initial_time = time.monotonic()
 #SPI Module Setup
 spi = spidev.SpiDev() #New Object
