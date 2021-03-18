@@ -1,6 +1,7 @@
-import express from "express";
-import * as loggerController from "../controllers/logger.controller";
+import express from 'express';
+import * as loggerController from '../controllers/logger.controller';
 
+// eslint-disable-next-line new-cap
 const router = express.Router();
 
 router.route('/')

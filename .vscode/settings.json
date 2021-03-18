@@ -1,3 +1,7 @@
 {
-    "python.pythonPath": "C:\\Users\\Sejrup\\AppData\\Local\\Programs\\Python\\Python39\\python.exe"
+    "python.pythonPath": "C:\\Users\\Sejrup\\AppData\\Local\\Programs\\Python\\Python39\\python.exe",
+    "editor.codeActionsOnSave": {
+        "source.fixAll.eslint": true
+      },
+      "eslint.validate": ["typescript"]
 }
