@@ -1,12 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage Title="Register Plant" xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodel="clr-namespace:App.ViewsModel"
              x:Class="App.Views.RegisterPage">
-
-    <StackLayout Padding="5">
+    
+    <ContentPage.BindingContext>
+        <viewmodel:PlantViewModel/>
+    </ContentPage.BindingContext>
+<StackLayout Padding="5">
         
         <Label Text="ID"/>
-        <Entry Text="{Binding ID}" />
+        <Entry Text="{Binding Id}" />
         <Label Text="Name"/>
         <Entry Text="{Binding Name}"/>
         
@@ -19,7 +23,7 @@
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <Button Text="Save" Grid.Column="0"/>
+            <Button Text="Save" Command="{Binding SavePlantCommand}" Grid.Column="0"/>
             <Button Text="Photo" Command="{Binding TakePhotoCommand}" Grid.Column="1"/>
             
         </Grid>

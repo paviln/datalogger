@@ -17,18 +17,21 @@ namespace App.ViewsModel
 
         public ICommand RegisterPageNavCommand { get; set; }
         public ICommand TakePhotoCommand { get; set; }
-       
+        public ICommand SavePlantCommand { get; set; }
+        
 
         public RegisterViewModel(INavigation navigation) : base(navigation)
         {
 
               RegisterPageNavCommand = new Command(async () => await OnNavRegisterPage());
               TakePhotoCommand = new Command(async () => await TakePhoto());
+              SavePlantCommand = new Command(async () => await SavePlant());
         }
 
          private async Task OnNavRegisterPage()
 
         {
+
          await Navigation.PushAsync(new RegisterPage());
 
         }
@@ -39,6 +42,13 @@ namespace App.ViewsModel
         {
            
            
+        }
+
+        // Save Plant
+        private async Task SavePlant()
+        {
+            
+
         }
     }
 }

@@ -4,10 +4,24 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="App.MainPage">
 
-    <StackLayout>
-        <Button Command="{Binding RegisterPageNavCommand}" Text="Register Plant"/>
-        <Button Command="{Binding SecondPageNavCommand}" Text="Show Data"/>
-        <Button Command="{Binding FindPlantPageNavCommand}" Text="Find Plant"/>
+    <StackLayout Padding="8">
+        <Grid >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Button Command="{Binding RegisterPageNavCommand}" Text="Register Plant" Grid.Row="0" BackgroundColor="DodgerBlue" FontAttributes="Bold"/>
+            <Button Command="{Binding SecondPageNavCommand}" Text="Show Data" Grid.Row="1" BackgroundColor="DodgerBlue" FontAttributes="Bold"/>
+            <Button Command="{Binding FindPlantPageNavCommand}" Text="Find Plant" Grid.Row="2" BackgroundColor="DodgerBlue" FontAttributes="Bold"/>
+            <Button Command="{Binding NotificationPageNavCommand}" Text="Notifications" Grid.Row="3" BackgroundColor="DodgerBlue" FontAttributes="Bold"/>
+        </Grid>
+        
     </StackLayout>
    
 </ContentPage>

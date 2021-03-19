@@ -9,6 +9,9 @@
             <Entry Text="{Binding ID}" />
 
             <Button Text="Search"/>
+            <ListView x:Name="PlantData" BackgroundColor="LightGreen" >
+
+            </ListView>
         </StackLayout>
         
     </ContentPage.Content>

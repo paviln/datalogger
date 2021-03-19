@@ -17,6 +17,7 @@ namespace App.ViewsModel
             SecondPageNavCommand = new Command(async () => await OnNavSecondPage());
             RegisterPageNavCommand = new Command(async () => await OnNavRegisterPage());
             FindPlantPageNavCommand = new Command(async () => await OnNavFindPlantPage());
+            NotificationPageNavCommand = new Command(async () => await NotificationNavPage());
         }
         //Show data page
         private async Task OnNavSecondPage()
@@ -44,5 +45,15 @@ namespace App.ViewsModel
 
         }
         public Command FindPlantPageNavCommand { get; }
+
+       
+        // Notifications Page
+        private async Task NotificationNavPage()
+
+        {
+            await Navigation.PushAsync(new Notifications());
+
+        }
+        public Command NotificationPageNavCommand { get; }
     }
 }
