@@ -6,7 +6,7 @@ using System.Net.Http;
 using System.Text;
 using Xamarin.Forms;
 
-namespace App.ViewsModel
+namespace App.ViewsModels
 {
     public class PlantViewModel 
     {

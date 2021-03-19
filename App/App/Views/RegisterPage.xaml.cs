@@ -1,4 +1,4 @@
-﻿using App.ViewsModel;
+﻿using App.ViewsModels;
 using Plugin.Media;
 using Plugin.Media.Abstractions;
 using System;

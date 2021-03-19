@@ -6,7 +6,7 @@ import dotenv from 'dotenv';
 
 import routes from './routes';
 
-dotenv.config({path: __dirname + '/../src/.env'});
+dotenv.config({path: __dirname + '/../src/.env.exsample'});
 const env = process.env;
 
 const app = express();

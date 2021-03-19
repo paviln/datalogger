@@ -13,7 +13,6 @@
         <Entry Text="{Binding Id}" />
         <Label Text="Name"/>
         <Entry Text="{Binding Name}"/>
-        
         <Grid >
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
@@ -25,7 +24,6 @@
             </Grid.ColumnDefinitions>
             <Button Text="Save" Command="{Binding SavePlantCommand}" Grid.Column="0"/>
             <Button Text="Photo" Command="{Binding TakePhotoCommand}" Grid.Column="1"/>
-            
         </Grid>
         <Image Source="{Binding Image}"  HeightRequest="300" WidthRequest="300"/>
     </StackLayout>
