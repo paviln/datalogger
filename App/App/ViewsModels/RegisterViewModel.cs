@@ -10,6 +10,10 @@ namespace App.ViewsModels
 {
    public class RegisterViewModel : BaseViewModel
     {
+        public INavigation Navigation { get; set; }
+
+        public Command SavePlantCommand { get; set; }
+
         private ImageSource image;
         public ImageSource Image 
         { 
@@ -22,8 +26,10 @@ namespace App.ViewsModels
 
         public RegisterViewModel(INavigation navigation) : base(navigation)
         {
-              RegisterPageNavCommand = new Command(async () => await OnNavRegisterPage());
-              TakePhotoCommand = new Command(async () => await TakePhotoAsync());
+            this.Navigation = navigation;
+            RegisterPageNavCommand = new Command(async () => await OnNavRegisterPage());
+            TakePhotoCommand = new Command(async () => await TakePhotoAsync());
+            SavePlantCommand = new Command(async () => await SavePlant());
         }
          private async Task OnNavRegisterPage()
         {
@@ -42,6 +48,10 @@ namespace App.ViewsModels
             {
                 Console.WriteLine($"CapturePhotoAsync THREW: {ex.Message}");
             }
+        }
+        async Task SavePlant()
+        {
+
         }
     }
 }
