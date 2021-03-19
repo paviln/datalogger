@@ -39,7 +39,8 @@ namespace App.ViewsModels
         }
         async Task TakePhotoAsync()
         {
-            Console.WriteLine(RegisterService.GetPlant().Result.Name);
+            var item = await RegisterService.GetPlant();
+            Console.WriteLine(item);
 
             try
             {

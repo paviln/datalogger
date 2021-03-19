@@ -1,9 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
+using System.Net.Http;
+using System.Text.Json;
 using System.Threading.Tasks;
-using App.Commen;
 using App.Models;
+using App.Interfaces;
+using Xamarin.Forms;
 
 namespace App.Services
 {
@@ -11,7 +12,32 @@ namespace App.Services
     {
         public static async Task<Plant> GetPlant()
         {
-            var plant = await HttpClientWrapper<Plant>.Get("/api/logger");
+            Plant plant = null;
+            HttpClientHandler clientHandler = new HttpClientHandler();
+            clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
+
+            IHttpClientHandler httpClientHandler = DependencyService.Get<IHttpClientHandler>();
+            using (var httpClient = new HttpClient(clientHandler))
+            {
+                try
+                {
+                    httpClient.BaseAddress = new Uri("http://localhost:3000/");
+                    var response = httpClient.GetAsync(new Uri("/api/logger")).Result;
+                    response.EnsureSuccessStatusCode();
+                    await response.Content.ReadAsStringAsync().ContinueWith((Task<string> data) =>
+                    {
+                        if (data.IsFaulted)
+                            throw data.Exception;
+
+                        plant = JsonSerializer.Deserialize<Plant>(data.Result);
+                    });
+
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                }
+            }
 
             return plant;
         }
