@@ -12,14 +12,12 @@
 
   <ItemGroup>
     <PackageReference Include="System.Net.Http" Version="4.3.4" />
+    <PackageReference Include="System.Text.Json" Version="5.0.1" />
     <PackageReference Include="Xamarin.Forms" Version="5.0.0.2012" />
     <PackageReference Include="Xamarin.Essentials" Version="1.6.1" />
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Update="Views\FindPlantPage.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
     <EmbeddedResource Update="Views\Notifications.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>

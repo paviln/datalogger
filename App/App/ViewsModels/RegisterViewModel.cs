@@ -1,7 +1,5 @@
 ﻿using App.Services;
-using App.Views;
 using System;
-using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Essentials;
@@ -11,8 +9,9 @@ namespace App.ViewsModels
 {
    public class RegisterViewModel : BaseViewModel
     {
-        public INavigation Navigation { get; set; }
-
+        public INavigationService NavigationService { get; set; }
+        public int Id { get; set; }
+        public string Name { get; set; }
         public Command SavePlantCommand { get; set; }
 
         private ImageSource image;
@@ -25,16 +24,23 @@ namespace App.ViewsModels
         public ICommand RegisterPageNavCommand { get; set; }
         public ICommand TakePhotoCommand { get; set; }
 
-        public RegisterViewModel(INavigation navigation) : base(navigation)
+        public RegisterViewModel(INavigationService navigationService) : base(navigationService)
         {
-            this.Navigation = navigation;
+            this.NavigationService = navigationService;
             RegisterPageNavCommand = new Command(async () => await OnNavRegisterPage());
             TakePhotoCommand = new Command(async () => await TakePhotoAsync());
             SavePlantCommand = new Command(async () => await SavePlant());
         }
-         private async Task OnNavRegisterPage()
+        // Instance method to initialise the TwitterSignInPageViewModel
+        public override async Task Init()
         {
-         await Navigation.PushAsync(new RegisterPage());
+            await Task.Factory.StartNew(() =>
+            {
+            });
+        }
+        private async Task OnNavRegisterPage()
+        {
+         await NavigationService.NavigateTo<RegisterViewModel>();
 
         }
         async Task TakePhotoAsync()

@@ -1,10 +1,5 @@
-﻿using App.ViewsModel;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿using App.Services;
+using App.ViewsModel;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -16,7 +11,7 @@ namespace App.Views
         public Notifications()
         {
             InitializeComponent();
-            BindingContext = new NotificationViewModel(Navigation);
+            this.BindingContext = new NotificationViewModel(DependencyService.Get<INavigationService>());
         }
     }
 }

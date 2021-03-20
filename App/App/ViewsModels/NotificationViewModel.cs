@@ -1,7 +1,5 @@
-﻿using App.Views;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using App.Services;
+using App.ViewsModels;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
@@ -10,16 +8,23 @@ namespace App.ViewsModel
 {
    public class NotificationViewModel : BaseViewModel
     {
+        public INavigationService NavigationService { get; set; }
+
         public ICommand NotificationPageNavCommand { get; set; }
-        public NotificationViewModel(INavigation navition) : base(navition)
+        public NotificationViewModel(INavigationService navigationService) : base(navigationService)
         {
+            NavigationService = navigationService;
             NotificationPageNavCommand = new Command(async () => await NotificationNavPage());
         }
-        private async Task NotificationNavPage()
-
+        public override async Task Init()
         {
-            await Navigation.PushAsync(new Notifications());
-
+            await Task.Factory.StartNew(() =>
+            {
+            });
+        }
+        private async Task NotificationNavPage()
+        {
+            //await Navigation.PushAsync(new Notifications());
         }
     }
 }

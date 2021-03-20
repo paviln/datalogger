@@ -1,4 +1,5 @@
-﻿using App.Views;
+﻿using App.Services;
+using App.Views;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -10,16 +11,22 @@ namespace App.ViewsModels
 {
    public class ShowDataViewModel : BaseViewModel
     {
+        public INavigationService NavigationService { get; set; }
         public ICommand SecondPageNavCommand { get; set; }
-        public ShowDataViewModel(INavigation navition): base(navition)
+        public ShowDataViewModel(INavigationService navigationService) : base(navigationService)
         {
+            NavigationService = navigationService;
             SecondPageNavCommand = new Command(async () => await OnNavSecondPage());
         }
-        private async Task OnNavSecondPage()
-
+        public override async Task Init()
         {
-            await Navigation.PushAsync(new ShowData());
-
+            await Task.Factory.StartNew(() =>
+            {
+            });
+        }
+        private async Task OnNavSecondPage()
+        {
+            //await Navigation.PushAsync(new ShowData());
         }
     }
 }

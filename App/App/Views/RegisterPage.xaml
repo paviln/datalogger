@@ -3,11 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:viewmodels="clr-namespace:App.ViewsModels"
              x:Class="App.Views.RegisterPage">
-    
-    <ContentPage.BindingContext>
-        <viewmodels:RegisterViewModel/>
-    </ContentPage.BindingContext>
-<StackLayout Padding="5">
+    <StackLayout Padding="5">
         
         <Label Text="ID"/>
         <Entry Text="{Binding Id}" />

@@ -1,22 +1,24 @@
-﻿using System;
+﻿using App.Services;
+using App.Views;
+using App.ViewsModels;
 using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
 
 namespace App
 {
     public partial class App : Application
     {
+        public static NavigationService NavigationService { get; set; }
         public App()
         {
             InitializeComponent();
-
-          // MainPage = new MainPage();
-           //for new page navigation
-           MainPage = new NavigationPage(new MainPage());
+            NavigationService = DependencyService.Get<INavigationService>() as NavigationService;
         }
 
         protected override void OnStart()
         {
+            MainPage = new NavigationPage(new MainPage());
+            NavigationService.Navigation = MainPage.Navigation;
+            NavigationService.RegisterViewMapping(typeof(RegisterViewModel), typeof(RegisterPage));
         }
 
         protected override void OnSleep()

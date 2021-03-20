@@ -1,10 +1,5 @@
-﻿using App.ViewsModels;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using App.Services;
+using App.ViewsModels;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -16,7 +11,7 @@ namespace App.Views
         public RegisterPage()
         {
             InitializeComponent();
-            BindingContext = new RegisterViewModel(Navigation);
+            this.BindingContext = new RegisterViewModel(DependencyService.Get<INavigationService>());
         }               
     }
 }
