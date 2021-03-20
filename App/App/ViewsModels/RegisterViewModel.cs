@@ -1,4 +1,5 @@
-﻿using App.Services;
+﻿using App.Interfaces;
+using App.Services;
 using System;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -31,13 +32,6 @@ namespace App.ViewsModels
             TakePhotoCommand = new Command(async () => await TakePhotoAsync());
             SavePlantCommand = new Command(async () => await SavePlant());
         }
-        // Instance method to initialise the TwitterSignInPageViewModel
-        public override async Task Init()
-        {
-            await Task.Factory.StartNew(() =>
-            {
-            });
-        }
         private async Task OnNavRegisterPage()
         {
          await NavigationService.NavigateTo<RegisterViewModel>();
@@ -45,8 +39,8 @@ namespace App.ViewsModels
         }
         async Task TakePhotoAsync()
         {
-            var item = await RegisterService.GetPlant();
-            Console.WriteLine(item);
+            //var item = await RegisterService.GetPlant();
+            //Console.WriteLine(item);
 
             try
             {

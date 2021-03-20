@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage Title="Data" xmlns="http://xamarin.com/schemas/2014/forms"
+<ContentPage Title="Notifications" xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="App.Views.ShowData">
+             x:Class="App.Views.NotificationPage">
     <ContentPage.Content>
-        <StackLayout Padding="5">
+        <StackLayout>
             <ListView x:Name="PlantData" BackgroundColor="LightGray" >
-                
+
             </ListView>
         </StackLayout>
     </ContentPage.Content>

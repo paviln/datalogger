@@ -1,4 +1,4 @@
-﻿using App.Services;
+﻿using App.Interfaces;
 using App.ViewsModels;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -6,9 +6,9 @@ using Xamarin.Forms.Xaml;
 namespace App.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class ShowData : ContentPage
+    public partial class ShowDataPage : ContentPage
     {
-        public ShowData()
+        public ShowDataPage()
         {
             InitializeComponent();
             this.BindingContext = new ShowDataViewModel(DependencyService.Get<INavigationService>());

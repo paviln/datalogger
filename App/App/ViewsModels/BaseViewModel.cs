@@ -1,7 +1,6 @@
-﻿using App.Services;
+﻿using App.Interfaces;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
 
 namespace App.ViewsModels
 {
@@ -13,7 +12,6 @@ namespace App.ViewsModels
             Navigation = navigationService;
         }
         public event PropertyChangedEventHandler PropertyChanged;
-        public abstract Task Init();
         public void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

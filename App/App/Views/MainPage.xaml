@@ -5,23 +5,10 @@
              x:Class="App.MainPage">
 
     <StackLayout Padding="8">
-        <Grid >
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*" />
-                <RowDefinition Height="*" />
-                <RowDefinition Height="*" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-            <Button Clicked="Click" Text="Register Plant" Grid.Row="0" BackgroundColor="DodgerBlue" FontAttributes="Bold"/>
-            <Button Command="{Binding SecondPageNavCommand}" Text="Show Data" Grid.Row="1" BackgroundColor="DodgerBlue" FontAttributes="Bold"/>
-            <Button Command="{Binding FindPlantPageNavCommand}" Text="Find Plant" Grid.Row="2" BackgroundColor="DodgerBlue" FontAttributes="Bold"/>
-            <Button Command="{Binding NotificationPageNavCommand}" Text="Notifications" Grid.Row="3" BackgroundColor="DodgerBlue" FontAttributes="Bold"/>
-        </Grid>
-        
+        <Button Command="{Binding RegisterPageNavCommand}" Text="Register Plant" BackgroundColor="DodgerBlue" FontAttributes="Bold"/>
+        <Button Command="{Binding SecondPageNavCommand}" Text="Show Data" BackgroundColor="DodgerBlue" FontAttributes="Bold"/>
+        <Button Command="{Binding FindPlantPageNavCommand}" Text="Find Plant" BackgroundColor="DodgerBlue" FontAttributes="Bold"/>
+        <Button Command="{Binding NotificationPageNavCommand}" Text="Notifications" BackgroundColor="DodgerBlue" FontAttributes="Bold"/>
     </StackLayout>
    
 </ContentPage>
