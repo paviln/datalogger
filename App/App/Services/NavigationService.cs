@@ -1,4 +1,5 @@
-﻿using App.Services;
+﻿using App.Interfaces;
+using App.Services;
 using App.ViewsModels;
 using System;
 using System.Collections.Generic;
@@ -38,10 +39,6 @@ namespace App.Services
             where TVM : BaseViewModel
         {
             await NavigateToView(typeof(TVM));
-
-            if (Navigation.NavigationStack
-                .Last().BindingContext is BaseViewModel)
-                await ((BaseViewModel)(Navigation.NavigationStack.Last().BindingContext)).Init();
         }
 
         // Navigates to a specific ViewModel within our dictionary viewMapping

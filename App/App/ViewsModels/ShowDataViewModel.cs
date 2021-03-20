@@ -1,8 +1,4 @@
-﻿using App.Services;
-using App.Views;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using App.Interfaces;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
@@ -17,12 +13,6 @@ namespace App.ViewsModels
         {
             NavigationService = navigationService;
             SecondPageNavCommand = new Command(async () => await OnNavSecondPage());
-        }
-        public override async Task Init()
-        {
-            await Task.Factory.StartNew(() =>
-            {
-            });
         }
         private async Task OnNavSecondPage()
         {

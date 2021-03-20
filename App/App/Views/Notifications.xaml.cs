@@ -1,5 +1,5 @@
-﻿using App.Services;
-using App.ViewsModel;
+﻿using App.Interfaces;
+using App.ViewsModels;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 

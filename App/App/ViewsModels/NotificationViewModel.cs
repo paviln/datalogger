@@ -1,10 +1,9 @@
-﻿using App.Services;
-using App.ViewsModels;
+﻿using App.Interfaces;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
 
-namespace App.ViewsModel
+namespace App.ViewsModels
 {
    public class NotificationViewModel : BaseViewModel
     {
@@ -15,12 +14,6 @@ namespace App.ViewsModel
         {
             NavigationService = navigationService;
             NotificationPageNavCommand = new Command(async () => await NotificationNavPage());
-        }
-        public override async Task Init()
-        {
-            await Task.Factory.StartNew(() =>
-            {
-            });
         }
         private async Task NotificationNavPage()
         {
