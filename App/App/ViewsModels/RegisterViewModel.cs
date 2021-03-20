@@ -1,4 +1,5 @@
 ﻿using App.Interfaces;
+using App.Models;
 using App.Services;
 using System;
 using System.Threading.Tasks;
@@ -39,9 +40,6 @@ namespace App.ViewsModels
         }
         async Task TakePhotoAsync()
         {
-            //var item = await RegisterService.GetPlant();
-            //Console.WriteLine(item);
-
             try
             {
                 var photo = await MediaPicker.CapturePhotoAsync();
@@ -55,7 +53,12 @@ namespace App.ViewsModels
         }
         async Task SavePlant()
         {
-
+            Plant plant = new Plant() 
+            { 
+                Name = "test",
+                LoggerId = "60565b10cb25762f904f539f"
+            };
+            await LoggerService.SavePlant(plant);
         }
     }
 }

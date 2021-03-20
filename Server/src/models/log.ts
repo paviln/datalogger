@@ -18,7 +18,7 @@ const LogSchema: Schema = new Schema(
       soil_humidity: Number,
       loggerId: {
         type: Schema.Types.ObjectId,
-        ref: 'Loggers',
+        ref: 'Logger',
       },
     },
     {
