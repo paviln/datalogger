@@ -19,6 +19,7 @@ namespace App
         {
             MainPage = new NavigationPage(new MainPage());
             NavigationService.Navigation = MainPage.Navigation;
+            NavigationService.RegisterViewMapping(typeof(DataloggerViewModel), typeof(DataloggerPage));
             NavigationService.RegisterViewMapping(typeof(RegisterViewModel), typeof(RegisterPage));
             NavigationService.RegisterViewMapping(typeof(NotificationViewModel), typeof(NotificationPage));
             NavigationService.RegisterViewMapping(typeof(ShowDataViewModel), typeof(ShowDataPage));

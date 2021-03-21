@@ -5,6 +5,7 @@ import * as loggerController from '../controllers/logger.controller';
 const router = express.Router();
 
 router.route('/')
+    .get(loggerController.getLogger)
     .post(loggerController.create)
     .put(loggerController.update);
 

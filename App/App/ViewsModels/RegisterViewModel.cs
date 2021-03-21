@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Essentials;
 using Xamarin.Forms;
+using App.Helpers;
 
 namespace App.ViewsModels
 {
-   public class RegisterViewModel : BaseViewModel
+    public class RegisterViewModel : BaseViewModel
     {
         public INavigationService NavigationService { get; set; }
         public int Id { get; set; }
@@ -17,12 +18,12 @@ namespace App.ViewsModels
         public Command SavePlantCommand { get; set; }
 
         private ImageSource image;
-        public ImageSource Image 
-        { 
+        public ImageSource Image
+        {
             get { return image; }
             set { image = value; OnPropertyChanged(); }
         }
-        public string PhotoPath { get; set; }
+        private byte[] _file;
         public ICommand RegisterPageNavCommand { get; set; }
         public ICommand TakePhotoCommand { get; set; }
 
@@ -44,6 +45,8 @@ namespace App.ViewsModels
             {
                 var photo = await MediaPicker.CapturePhotoAsync();
                 var stream = await photo.OpenReadAsync();
+                _file = Conversion.StreamToByteArray(stream);
+                stream.Position = 0;
                 Image = ImageSource.FromStream(() => stream);
             }
             catch (Exception ex)
@@ -53,10 +56,11 @@ namespace App.ViewsModels
         }
         async Task SavePlant()
         {
-            Plant plant = new Plant() 
-            { 
-                Name = "test",
-                LoggerId = "60565b10cb25762f904f539f"
+            var plant = new Plant()
+            {
+                Name = "test2",
+                LoggerId = "6056a026ba4eb84cc0cac957",
+                File = _file
             };
             await LoggerService.SavePlant(plant);
         }

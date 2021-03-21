@@ -1,13 +1,23 @@
 import mongoose, {Document, Schema} from 'mongoose';
 
 export interface IPlant extends Document {
-    name: String,
-    loggerId: mongoose.Types._ObjectId
+  name: String,
+  img:
+  {
+    data: Buffer,
+    contentType: String
+  },
+  loggerId: mongoose.Types._ObjectId
 }
 
 const PlantSchema = new Schema(
     {
       name: String,
+      img:
+      {
+        data: Buffer,
+        contentType: String
+      },
       loggerId: {
         type: Schema.Types.ObjectId,
         ref: 'Logger',

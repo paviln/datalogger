@@ -5,6 +5,7 @@
              x:Class="App.MainPage">
 
     <StackLayout Padding="8">
+        <Button Command="{Binding DataloggerPageNavCommand}" Text="Pair Datalogger" BackgroundColor="DodgerBlue" FontAttributes="Bold"/>
         <Button Command="{Binding RegisterPageNavCommand}" Text="Register Plant" BackgroundColor="DodgerBlue" FontAttributes="Bold"/>
         <Button Command="{Binding SecondPageNavCommand}" Text="Show Data" BackgroundColor="DodgerBlue" FontAttributes="Bold"/>
         <Button Command="{Binding FindPlantPageNavCommand}" Text="Find Plant" BackgroundColor="DodgerBlue" FontAttributes="Bold"/>

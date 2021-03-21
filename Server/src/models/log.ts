@@ -4,7 +4,6 @@ export interface ILog extends Document {
     temperature: number,
     airHumidity: number,
     soilHumidity: number,
-    timestamp: Date,
     loggerId: Schema.Types.ObjectId
 }
 
