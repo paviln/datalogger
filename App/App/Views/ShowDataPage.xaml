@@ -5,8 +5,9 @@
     <ContentPage.Content>
         <StackLayout Padding="5">
             <ListView x:Name="PlantData" BackgroundColor="LightGray" >
-                
+
             </ListView>
-       
-    
+
+        </StackLayout>
+    </ContentPage.Content>
 </ContentPage>
