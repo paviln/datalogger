@@ -4,7 +4,12 @@ import Plant, {IPlant} from '../models/plant';
 import Logger from '../models/logger';
 
 const create = async (req: Request, res: Response, next: NextFunction) => {
-  const doesLoggerExsist: Boolean = await Logger.exists({_id: req.body.loggerId});
+  let doesLoggerExsist: Boolean = false;
+  try {
+    doesLoggerExsist = await Logger.exists({_id: req.body.loggerId});
+  } catch (error) {
+    console.log(error);
+  }
   if (doesLoggerExsist) {
     var plant: any = 
     {

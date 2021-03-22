@@ -4,10 +4,10 @@
              x:Class="App.Views.RegisterPage">
     <StackLayout Padding="5">
         
-        <Label Text="ID"/>
-        <Entry Text="{Binding Id, Mode=TwoWay}" />
+        <Label Text="Logger Id"/>
+        <Entry Text="{Binding LoggerId}" />
         <Label Text="Name"/>
-        <Entry Text="{Binding Name, Mode=TwoWay}"/>
+        <Entry Text="{Binding Name}" />
         <Grid >
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />

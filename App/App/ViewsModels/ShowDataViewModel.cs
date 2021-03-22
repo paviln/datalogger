@@ -21,10 +21,6 @@ namespace App.ViewsModels
         //Http GET
         private async void GetData()
         {
-            HttpClient client = new HttpClient();
-            var response =  await client.GetStringAsync("");//pass url for api
-            var plants = JsonConvert.DeserializeObject<List<Plant>>(response);
-            PlantDataListView.ItemsSource = plants;
         }
     }
 }

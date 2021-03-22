@@ -13,20 +13,16 @@ namespace App.ViewsModels
     public class RegisterViewModel : BaseViewModel
     {
         public INavigationService NavigationService { get; set; }
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public Command SavePlantCommand { get; set; }
-
+        private string loggerId;
+        public string LoggerId { get { return loggerId; } set { loggerId = value; OnPropertyChanged(); } }
+        private string name;
+        public string Name { get { return name; } set { name = value; OnPropertyChanged(); } }
+        private byte[] file = null;
         private ImageSource image;
-        public ImageSource Image
-        {
-            get { return image; }
-            set { image = value; OnPropertyChanged(); }
-        }
-        private byte[] _file;
+        public ImageSource Image { get { return image; } set { image = value; OnPropertyChanged(); } }
         public ICommand RegisterPageNavCommand { get; set; }
         public ICommand TakePhotoCommand { get; set; }
-
+        public Command SavePlantCommand { get; set; }
         public RegisterViewModel(INavigationService navigationService) : base(navigationService)
         {
             this.NavigationService = navigationService;
@@ -36,8 +32,7 @@ namespace App.ViewsModels
         }
         private async Task OnNavRegisterPage()
         {
-         await NavigationService.NavigateTo<RegisterViewModel>();
-
+            await NavigationService.NavigateTo<RegisterViewModel>();
         }
         async Task TakePhotoAsync()
         {
@@ -45,7 +40,7 @@ namespace App.ViewsModels
             {
                 var photo = await MediaPicker.CapturePhotoAsync();
                 var stream = await photo.OpenReadAsync();
-                _file = Conversion.StreamToByteArray(stream);
+                file = Conversion.StreamToByteArray(stream);
                 stream.Position = 0;
                 Image = ImageSource.FromStream(() => stream);
             }
@@ -56,13 +51,23 @@ namespace App.ViewsModels
         }
         async Task SavePlant()
         {
-            var plant = new Plant()
+            if (!String.IsNullOrEmpty(name) && !String.IsNullOrEmpty(LoggerId) && file != null)
             {
-                Name = "test2",
-                LoggerId = "6056a026ba4eb84cc0cac957",
-                File = _file
-            };
-            await LoggerService.SavePlant(plant);
+                var plant = new Plant()
+                {
+                    Name = name,
+                    LoggerId = loggerId,
+                    File = file
+                };
+                var success = await LoggerService.SavePlant(plant);
+
+                if (success)
+                {
+                    name = "";
+                    loggerId = "";
+                    file = null;
+                }
+            }
         }
     }
 }
