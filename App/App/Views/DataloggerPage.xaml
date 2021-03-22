@@ -5,8 +5,8 @@
              Title="Pair datalogger">
     <ContentPage.Content>
         <StackLayout Padding="8">
-            <Label Text="Identity number" />
-            <Entry />
+            <Label Text="ID" />
+            <Entry Text="{Binding LoggerId}" />
             <Button Command="{Binding PairDataloggerCommand}" Text="Create" />
         </StackLayout>
     </ContentPage.Content>

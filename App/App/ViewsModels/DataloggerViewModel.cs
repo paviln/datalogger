@@ -1,5 +1,6 @@
 ﻿using App.Interfaces;
 using App.Services;
+using System.Net;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
@@ -8,6 +9,12 @@ namespace App.ViewsModels
     public class DataloggerViewModel : BaseViewModel
     {
         public INavigationService NavigationService { get; set; }
+        private string loggerId;
+        public string LoggerId 
+        { 
+            get { return loggerId; }
+            set { loggerId = value; OnPropertyChanged(); }
+        }
         public Command PairDataloggerCommand { get; set; }
 
         public DataloggerViewModel(INavigationService navigationService) : base(navigationService)
@@ -17,8 +24,15 @@ namespace App.ViewsModels
         }
         private async Task PairDatalogger()
         {
-            System.Console.WriteLine("lol");
-            await LoggerService.PairLogger("60576fc9744f7644182093bc");
+            if (!string.IsNullOrWhiteSpace(loggerId))
+            {
+                bool doesExist = await LoggerService.DoesLoggerExist(loggerId);
+
+                if (doesExist)
+                {
+                    System.Console.WriteLine("Success");
+                }
+            } 
         }
     }
 }

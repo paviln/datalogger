@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Net;
+using System.Text.Json;
 using System.Threading.Tasks;
 using App.Models;
 using RestSharp;
@@ -7,7 +9,7 @@ namespace App.Services
 {
     class LoggerService
     {
-        public static async Task<Uri> PairLogger(string loggerId)
+        public static async Task<bool> DoesLoggerExist(string loggerId)
         {
             var client = new RestClient("http://192.168.1.220:3000/api/");
 
@@ -19,8 +21,14 @@ namespace App.Services
             };
             request.AddJsonBody(body);
             var response = await client.ExecuteAsync(request);
+            Console.WriteLine(JsonSerializer.Deserialize<IRestResponse>(response.Content));
 
-            return response.ResponseUri;
+            if ((int)response.ResponseStatus == 200)
+            {
+                return true;
+            }
+
+            return false;
         }
         //static HttpClient client = new HttpClient();
 
