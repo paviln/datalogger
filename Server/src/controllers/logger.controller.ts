@@ -4,7 +4,17 @@ import Log, {ILog} from '../models/log';
 import Logger, {ILogger} from '../models/logger';
 
 const getLogger = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-  await Logger.findById(req.body._id, (err: any, doc: any) => {
+  await Logger.findById(req.params.id, (err: any, doc: any) => {
+    if (err) {
+      res.send(err);
+    } else {
+      res.status(200).json(doc);
+    }
+  });
+};
+
+const getLoggers = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  await Logger.find((err: any, doc: any) => {
     if (err) {
       res.send(err);
     } else {
@@ -70,4 +80,4 @@ const getLogsInPeriod = async (period: number): Promise<ILog[]> => {
   return logs;
 };
 
-export {getLogger, create, update, findWarningsInLogs};
+export {getLogger, getLoggers, create, update, findWarningsInLogs};
