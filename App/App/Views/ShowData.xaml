@@ -1,12 +1,25 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage Title="Data" xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:viewsmodels="clr-namespace:App.ViewsModels"
              x:Class="App.Views.ShowData">
-    <ContentPage.Content>
-        <StackLayout Padding="5">
-            <ListView x:Name="PlantData" BackgroundColor="LightGray" >
-                
+                 
+    <ContentPage.BindingContext>
+        <viewsmodels:ShowDataViewModel/>
+    </ContentPage.BindingContext>
+
+    <ListView x:Name="PlantDataListView" BackgroundColor="LightGray" >
+
+        <ListView.ItemTemplate>
+            <DataTemplate>
+                <ViewCell>
+                    <StackLayout Padding="5" Orientation="Horizontal">
+                        <Label Text="{Binding PlantId}" TextColor="Black"/>
+                        <Label Text="{Binding PlantName}" TextColor="Black"/>
+                    </StackLayout>
+                </ViewCell>
+            </DataTemplate>
+        </ListView.ItemTemplate> 
             </ListView>
-        </StackLayout>
-    </ContentPage.Content>
+       
+    
 </ContentPage>

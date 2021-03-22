@@ -1,5 +1,4 @@
 ﻿using App.Models;
-using RestSharp;
 using System;
 using System.Collections.Generic;
 using System.Text;

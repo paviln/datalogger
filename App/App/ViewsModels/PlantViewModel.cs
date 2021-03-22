@@ -1,76 +1,76 @@
-﻿using App.Models;
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Net.Http;
-using System.Text;
-using Xamarin.Forms;
+﻿//using app.models;
 
-namespace App.ViewsModels
-{
-    public class PlantViewModel 
-    {
-        public Command SavePlantCommand
-        {
-            get
-            {
-                return new Command(async () =>
-                {
-                    Plant plant = new Plant();
-                    plant.Id = Id;
-                    plant.Name = Name;
+//using system;
+//using system.collections.generic;
+//using system.net.http;
+//using system.text;
+//using xamarin.forms;
 
-                    string url = "";
-                    HttpClient client = new HttpClient();
-                    string jsonData = JsonConvert.SerializeObject(plant);
-                    StringContent content = new StringContent(jsonData, Encoding.UTF8, "application/json");
-                    HttpResponseMessage response = await client.PostAsync(url, content);
-                    string result = await response.Content.ReadAsStringAsync();
-                    Response responseData = JsonConvert.DeserializeObject<Response>(result);
-                    if (responseData.Status == 1)
-                    {
-                        await Navigation.PopAsync();
-                    }
-                    else
-                    {
+//namespace app.viewsmodels
+//{
+//    public class plantviewmodel 
+//    {
+//        public command saveplantcommand
+//        {
+//            get
+//            {
+//                return new command(async () =>
+//                {
+//                    plant plant = new plant();
+//                    plant.id = id;
+//                    plant.name = name;
 
-                    }
-                });
-            }
-        }
+//                    string url = "";
+//                    httpclient client = new httpclient();
+//                    string jsondata = jsonconvert.serializeobject(plant);
+//                    stringcontent content = new stringcontent(jsondata, encoding.utf8, "application/json");
+//                    httpresponsemessage response = await client.postasync(url, content);
+//                    string result = await response.content.readasstringasync();
+//                    response responsedata = jsonconvert.deserializeobject<response>(result);
+//                    if (responsedata.status == 1)
+//                    {
+//                        await navigation.popasync();
+//                    }
+//                    else
+//                    {
 
-        string _id;
-        public string Id
-        {
-            get
-            {
-                return _id;
-            }
-            set
-            {
-                if(value != null)
-                {
-                    _id = value;
+//                    }
+//                });
+//            }
+//        }
+
+//        string _id;
+//        public string id
+//        {
+//            get
+//            {
+//                return _id;
+//            }
+//            set
+//            {
+//                if(value != null)
+//                {
+//                    _id = value;
                     
-                }
-            }
-        }
+//                }
+//            }
+//        }
 
-        string _name;
-        public string Name
-        {
-            get
-            {
-                return _name;
-            }
-            set
-            {
-                if (value != null)
-                {
-                    _name = value;
+//        string _name;
+//        public string name
+//        {
+//            get
+//            {
+//                return _name;
+//            }
+//            set
+//            {
+//                if (value != null)
+//                {
+//                    _name = value;
 
-                }
-            }
-        }
-    }
-}
+//                }
+//            }
+//        }
+//    }
+//}
