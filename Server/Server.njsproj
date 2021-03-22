@@ -31,6 +31,8 @@
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>
+    <Content Include="src\.env" />
+    <Content Include="src\.env.exsample" />
     <Content Include="src\controllers\logger.controller.ts">
       <SubType>Code</SubType>
     </Content>
@@ -48,11 +50,18 @@
     <Folder Include="src\controllers\" />
     <Folder Include="src\" />
     <Folder Include="src\models\" />
+    <Folder Include="src\routes\" />
   </ItemGroup>
   <ItemGroup>
+    <TypeScriptCompile Include="src\controllers\log.controller.ts" />
+    <TypeScriptCompile Include="src\models\log.ts" />
     <TypeScriptCompile Include="src\models\logger.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
+    <TypeScriptCompile Include="src\models\plant.ts" />
+    <TypeScriptCompile Include="src\routes\index.ts" />
+    <TypeScriptCompile Include="src\routes\log.route.ts" />
+    <TypeScriptCompile Include="src\routes\logger.route.ts" />
   </ItemGroup>
   <Import Project="$(VSToolsPath)\Node.js Tools\Microsoft.NodejsToolsV2.targets" />
   <ProjectExtensions>

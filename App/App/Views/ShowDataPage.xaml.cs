@@ -6,12 +6,12 @@ using Xamarin.Forms.Xaml;
 namespace App.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class RegisterPage : ContentPage
+    public partial class ShowDataPage : ContentPage
     {
-        public RegisterPage()
+        public ShowDataPage()
         {
             InitializeComponent();
-            this.BindingContext = new RegisterViewModel(DependencyService.Get<INavigationService>());
-        }               
+            this.BindingContext = new ShowDataViewModel(DependencyService.Get<INavigationService>());
+        }
     }
 }

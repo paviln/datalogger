@@ -27,4 +27,4 @@ const LoggerSchema = new Schema(
     },
 );
 
-export default mongoose.model<ILogger>('Loggers', LoggerSchema);
+export default mongoose.model<ILogger>('Logger', LoggerSchema);

@@ -1,26 +1,23 @@
-﻿using App.Views;
-using App.ViewsModels;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using App.Interfaces;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
 
-namespace App.ViewsModel
+namespace App.ViewsModels
 {
    public class NotificationViewModel : BaseViewModel
     {
+        public INavigationService NavigationService { get; set; }
+
         public ICommand NotificationPageNavCommand { get; set; }
-        public NotificationViewModel(INavigation navition) : base(navition)
+        public NotificationViewModel(INavigationService navigationService) : base(navigationService)
         {
+            NavigationService = navigationService;
             NotificationPageNavCommand = new Command(async () => await NotificationNavPage());
         }
         private async Task NotificationNavPage()
-
         {
-            await Navigation.PushAsync(new Notifications());
-
+            //await Navigation.PushAsync(new Notifications());
         }
     }
 }

@@ -2,6 +2,7 @@ import bodyParser from 'body-parser';
 import express from 'express';
 import helmet from 'helmet';
 import mongoose from 'mongoose';
+import multer from 'multer';
 import dotenv from 'dotenv';
 
 import routes from './routes';
@@ -12,8 +13,9 @@ const env = process.env;
 const app = express();
 
 // Parse body params and attache them to req.body.
-app.use(bodyParser.urlencoded({extended: true}));
-app.use(bodyParser.json());
+app.use(bodyParser.json({ limit: '50mb' }));
+app.use(bodyParser.urlencoded({ limit: '50mb', extended: true, parameterLimit: 50000 }));
+
 
 app.use(helmet());
 

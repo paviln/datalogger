@@ -1,10 +1,5 @@
-﻿using App.ViewsModels;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using App.Interfaces;
+using App.ViewsModels;
 using Xamarin.Forms;
 
 namespace App
@@ -14,9 +9,7 @@ namespace App
         public MainPage()
         {
             InitializeComponent();
-            BindingContext = new MainViewModel(Navigation);
+            this.BindingContext = new MainViewModel(DependencyService.Get<INavigationService>());
         }
-        
-        
     }
 }

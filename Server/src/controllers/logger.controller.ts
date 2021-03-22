@@ -3,10 +3,19 @@ import {NextFunction, Request, Response} from 'express';
 import Log, {ILog} from '../models/log';
 import Logger, {ILogger} from '../models/logger';
 
+const getLogger = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  await Logger.findById(req.body._id, (err: any, doc: any) => {
+    if (err) {
+      res.send(err);
+    } else {
+      res.status(200).json(doc);
+    }
+  });
+};
+
 const create = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   const newLogger: ILogger = new Logger(req.body);
   const exsist: Boolean = await Logger.exists({_id: newLogger._id});
-
   if (!exsist) {
     newLogger.save((err, log) => {
       if (err) {
@@ -61,4 +70,4 @@ const getLogsInPeriod = async (period: number): Promise<ILog[]> => {
   return logs;
 };
 
-export {create, update, findWarningsInLogs};
+export {getLogger, create, update, findWarningsInLogs};

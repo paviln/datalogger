@@ -1,39 +1,42 @@
-﻿using App.Views;
+﻿using App.Interfaces;
+using App.Models;
+using App.Services;
 using System;
-using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Essentials;
 using Xamarin.Forms;
+using App.Helpers;
 
 namespace App.ViewsModels
 {
-   public class RegisterViewModel : BaseViewModel
+    public class RegisterViewModel : BaseViewModel
     {
-        public INavigation Navigation { get; set; }
-
+        public INavigationService NavigationService { get; set; }
+        public int Id { get; set; }
+        public string Name { get; set; }
         public Command SavePlantCommand { get; set; }
 
         private ImageSource image;
-        public ImageSource Image 
-        { 
+        public ImageSource Image
+        {
             get { return image; }
             set { image = value; OnPropertyChanged(); }
         }
-        public string PhotoPath { get; set; }
+        private byte[] _file;
         public ICommand RegisterPageNavCommand { get; set; }
         public ICommand TakePhotoCommand { get; set; }
 
-        public RegisterViewModel(INavigation navigation) : base(navigation)
+        public RegisterViewModel(INavigationService navigationService) : base(navigationService)
         {
-            this.Navigation = navigation;
+            this.NavigationService = navigationService;
             RegisterPageNavCommand = new Command(async () => await OnNavRegisterPage());
             TakePhotoCommand = new Command(async () => await TakePhotoAsync());
             SavePlantCommand = new Command(async () => await SavePlant());
         }
-         private async Task OnNavRegisterPage()
+        private async Task OnNavRegisterPage()
         {
-         await Navigation.PushAsync(new RegisterPage());
+         await NavigationService.NavigateTo<RegisterViewModel>();
 
         }
         async Task TakePhotoAsync()
@@ -42,6 +45,8 @@ namespace App.ViewsModels
             {
                 var photo = await MediaPicker.CapturePhotoAsync();
                 var stream = await photo.OpenReadAsync();
+                _file = Conversion.StreamToByteArray(stream);
+                stream.Position = 0;
                 Image = ImageSource.FromStream(() => stream);
             }
             catch (Exception ex)
@@ -51,7 +56,13 @@ namespace App.ViewsModels
         }
         async Task SavePlant()
         {
-
+            var plant = new Plant()
+            {
+                Name = "test2",
+                LoggerId = "6056a026ba4eb84cc0cac957",
+                File = _file
+            };
+            await LoggerService.SavePlant(plant);
         }
     }
 }

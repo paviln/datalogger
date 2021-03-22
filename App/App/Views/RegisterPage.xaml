@@ -2,11 +2,8 @@
 <ContentPage Title="Register Plant" xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:viewmodel="clr-namespace:App.ViewsModels"
              x:Class="App.Views.RegisterPage">
-    
-    <ContentPage.BindingContext>
-        <viewmodel:RegisterViewModel/>
-    </ContentPage.BindingContext>
     <StackLayout Padding="5">
+        
         <Label Text="ID"/>
         <Entry Text="{Binding Id, Mode=TwoWay}" />
         <Label Text="Name"/>
