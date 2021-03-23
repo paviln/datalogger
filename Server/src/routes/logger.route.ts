@@ -13,4 +13,6 @@ router.route('/')
 
 router.get('/warnings/:id', loggerController.findWarnings);
 
+router.get('/active', loggerController.getActivePlant);
+
 export default router;
