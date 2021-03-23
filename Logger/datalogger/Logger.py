@@ -10,13 +10,12 @@ import adafruit_am2320
 import board
 import busio
 import enum
-import http.client
 import urllib
 import sys
-import csv
 import ApiCalls
 from dotenv import load_dotenv
 from pathlib import Path
+
 #Setup I2C and AM2320
 i2c = busio.I2C(board.SCL, board.SDA)
 am2320 = adafruit_am2320.AM2320(i2c)
@@ -68,7 +67,6 @@ def get_data(_idd):
     resp = ApiCalls.get_logger(_idd)
     httpcode = resp.status_code
     if httpcode != 200:
-        # This means something went wrong.
         raise APIError('GET /logger/ {}'.format(httpcode))
     for logger in resp.json():
         print('{}'.format(logger['_id']))
@@ -88,20 +86,14 @@ def post_log():
     air_temp, air_hum = read_temp_humd()
     soil_hum = read_soil_humd(0)
     log_id = '60586f33b5943a427c675537'
-    #print(soil_hum)
     resp = ApiCalls.post_log(air_temp,air_hum,soil_hum,log_id)
-    #payload = {'temperature':air_temp,'air_humidity':air_hum, 'soil_humidity':soil_hum, 'loggerId':idd}
-    #resp = requests.post(_url('log/'),json=payload)
     httpcode = resp.status_code
     if httpcode != 200:
         raise APIError('POST /log/ {}'.format(httpcode))
     else:
         print("Log posted: "+ str(resp.status_code))
 
-#def _url(path):
- #   return 'http://192.168.87.133:3000/api/'+path
-
-#this is main function
+#This is main function
 def main():
     try:
         initialize_gpio()
@@ -129,7 +121,7 @@ def main():
         GPIO.cleanup()
         spi.close()
 
-#Class for ENUM status'
+#Class for ENUM status
 class Status(enum.Enum):
    WAITING = 1
    LOGGING = 2
@@ -146,7 +138,6 @@ class APIError(Exception):
 
     def __str__(self):
         return "APIError: status={}".format(self.status)
-
 
 #Invokes Main Method
 if __name__=="__main__":
