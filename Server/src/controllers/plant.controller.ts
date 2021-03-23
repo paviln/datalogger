@@ -1,35 +1,45 @@
 import {NextFunction, Request, Response} from 'express';
 
-import Plant from '../models/plant';
+import Plant, {Status} from '../models/plant';
 import Logger from '../models/logger';
 
 const create = async (req: Request, res: Response, next: NextFunction) => {
-  let doesLoggerExsist: Boolean = false;
-  try {
-    doesLoggerExsist = await Logger.exists({_id: req.body.loggerId});
-  } catch (error) {
-    console.log(error);
-  }
-  if (doesLoggerExsist) {
-    const plant: any =
-    {
-      name: req.body.name,
-      img: {
-        data: req.file.buffer,
-        contentType: 'image/png',
-      },
-      loggerId: req.body.loggerId,
-    };
-    console.log(plant);
-    Plant.create(plant, (err: any, plant: any) => {
-      if (err) {
-        res.send(err);
-      }
-      res.status(201).json(plant);
-    });
-  } else {
-    res.status(404).send();
-  }
+  await Logger.exists({_id: req.body.loggerId}, (err, exists: Boolean) => {
+    if (err) {
+      res.status(404).send(err);
+    } else if (exists) {
+      Plant.exists({
+        $and: [
+          {loggerId: req.body.loggerId},
+          {status: Status.ACTIVE},
+        ],
+      }, (err: any, exists: Boolean) => {
+        if (err) {
+          res.status(404).json(err);
+        } else if (exists) {
+          res.status(404).send();
+        } else {
+          const plant: any =
+          {
+            name: req.body.name,
+            minimumTemperature: req.body.minimumTemperature,
+            soilType: req.body.soilType,
+            img: {
+              data: req.file.buffer,
+              contentType: 'image/png',
+            },
+            status: req.body.status,
+            loggerId: req.body.loggerId,
+          };
+          Plant.create(plant, (err: any, plant: any) => {
+            if (err) {
+              res.status(404).send(err);
+            }
+            res.status(201).json(plant);
+          });
+        }
+      });
+    }
+  });
 };
-
 export {create};

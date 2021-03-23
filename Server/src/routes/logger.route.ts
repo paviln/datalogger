@@ -11,6 +11,6 @@ router.route('/')
     .post(loggerController.create)
     .put(loggerController.update);
 
-router.get('/warnings:id', loggerController.findWarnings);
+router.get('/warnings/:id', loggerController.findWarnings);
 
 export default router;

@@ -1,7 +1,9 @@
 import {NextFunction, Request, Response} from 'express';
+import mongoose from 'mongoose';
 
 import Log, {ILog} from '../models/log';
-import Logger, {ILogger} from '../models/logger';
+import Logger from '../models/logger';
+import Plant, {IPlant, Status} from '../models/plant';
 
 const getLogger = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   await Logger.findById(req.params.id, (err: any, doc: any) => {
@@ -24,18 +26,13 @@ const getLoggers = async (req: Request, res: Response, next: NextFunction): Prom
 };
 
 const create = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-  const newLogger: ILogger = new Logger(req.body);
-  const exsist: Boolean = await Logger.exists({_id: newLogger._id});
-  if (!exsist) {
-    newLogger.save((err, log) => {
-      if (err) {
-        res.send(err);
-      }
+  Logger.create(req.body, (err: any, log: any) => {
+    if (err) {
+      res.status(404).send(err);
+    } else {
       res.status(201).json(log);
-    });
-  } else {
-    res.status(404).send();
-  }
+    }
+  });
 };
 
 const update = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
@@ -49,33 +46,25 @@ const update = async (req: Request, res: Response, next: NextFunction): Promise<
 };
 
 const findWarnings = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-  const logger: ILogger = await Logger.findById(req.params.id);
-  if (logger) {
-    const logs: ILog[] = await getLogsInPeriod(15);
-
-    res.json(logs).send();
-  } else {
-    res.status(404).send();
-  }
-};
-
-const getLogsInPeriod = async (period: number): Promise<ILog[]> => {
-  let logs: ILog[];
-  const start = new Date(new Date().getTime() - (period * 60 * 1000));
-  await Log.find({
-    $and: [
-      {createdAt: {$gte: start}},
-      {temperature: {$gte: 22}},
-    ],
-  }, function(err: any, result: any) {
+  await Plant.findOne({loggerId: req.params.id, status: Status.ACTIVE}, async (err: any, plant: IPlant) => {
     if (err) {
-      logs = [];
+      res.status(404).send(err);
     } else {
-      logs = result;
+      const start = new Date(new Date().getTime() - (15 * 60 * 1000));
+      await Log.find({
+        $and: [
+          {plantId: plant.id},
+          {createdAt: {$gte: start}},
+        ],
+      }, (err: any, logs: any) => {
+        if (err) {
+          res.status(404).json(err);
+        } else {
+          res.status(200).json(logs);
+        }
+      });
     }
   });
-
-  return logs;
 };
 
 export {getLogger, getLoggers, create, update, findWarnings};

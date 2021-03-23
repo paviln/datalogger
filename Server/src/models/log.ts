@@ -4,7 +4,7 @@ export interface ILog extends Document {
     temperature: number,
     airHumidity: number,
     soilHumidity: number,
-    loggerId: Schema.Types.ObjectId
+    plantId: Schema.Types.ObjectId
 }
 
 const LogSchema: Schema = new Schema(
@@ -15,9 +15,9 @@ const LogSchema: Schema = new Schema(
       },
       air_humidity: Number,
       soil_humidity: Number,
-      loggerId: {
+      plantId: {
         type: Schema.Types.ObjectId,
-        ref: 'Logger',
+        ref: 'Plant',
       },
     },
     {
