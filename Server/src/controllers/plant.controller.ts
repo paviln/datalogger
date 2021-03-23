@@ -4,11 +4,11 @@ import Plant, {Status} from '../models/plant';
 import Logger from '../models/logger';
 
 const create = async (req: Request, res: Response, next: NextFunction) => {
-  await Logger.exists({_id: req.body.loggerId}, (err, exists: Boolean) => {
+  await Logger.exists({_id: req.body.loggerId}, async (err, exists: Boolean) => {
     if (err) {
       res.status(404).send(err);
     } else if (exists) {
-      Plant.exists({
+      await Plant.exists({
         $and: [
           {loggerId: req.body.loggerId},
           {status: Status.ACTIVE},
@@ -42,4 +42,5 @@ const create = async (req: Request, res: Response, next: NextFunction) => {
     }
   });
 };
+
 export {create};

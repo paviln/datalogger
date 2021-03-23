@@ -1,10 +1,10 @@
 import mongoose, {Document, Schema} from 'mongoose';
 
 export interface ILog extends Document {
-    temperature: number,
-    airHumidity: number,
-    soilHumidity: number,
-    plantId: Schema.Types.ObjectId
+  temperature: number,
+  airHumidity: number,
+  soilHumidity: number,
+  plantId: Schema.Types.ObjectId
 }
 
 const LogSchema: Schema = new Schema(

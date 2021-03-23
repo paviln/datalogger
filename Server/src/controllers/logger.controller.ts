@@ -1,7 +1,6 @@
 import {NextFunction, Request, Response} from 'express';
-import mongoose from 'mongoose';
 
-import Log, {ILog} from '../models/log';
+import Log from '../models/log';
 import Logger from '../models/logger';
 import Plant, {IPlant, Status} from '../models/plant';
 
@@ -67,4 +66,19 @@ const findWarnings = async (req: Request, res: Response, next: NextFunction): Pr
   });
 };
 
-export {getLogger, getLoggers, create, update, findWarnings};
+const getActivePlant = async (req: Request, res: Response, next: NextFunction) => {
+  await Plant.findOne({
+    $and: [
+      {loggerId: req.body.loggerId},
+      {status: Status.ACTIVE},
+    ],
+  }, (err: any, plant: IPlant) => {
+    if (err) {
+      res.status(404).json(err);
+    } else {
+      res.status(200).json(plant._id);
+    }
+  });
+};
+
+export {getLogger, getLoggers, create, update, findWarnings, getActivePlant};
