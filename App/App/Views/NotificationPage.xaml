@@ -4,8 +4,42 @@
              x:Class="App.Views.NotificationPage">
     <ContentPage.Content>
         <StackLayout>
-            <ListView x:Name="PlantData" BackgroundColor="LightGray" >
-
+            <Label Text="Logger Id" />
+            <Entry Text="{Binding LoggerId}"/>
+            <Button Text="Show Notifications" Command="{Binding ShowNotificationCommand}"/>
+            <ListView x:Name="listViewm" ItemsSource="{Binding Logs}">
+                <ListView.Header>
+                    <Grid BackgroundColor="White" Padding="0" RowSpacing="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"></ColumnDefinition>
+                            <ColumnDefinition Width="1*"></ColumnDefinition>
+                            <ColumnDefinition Width="1*"></ColumnDefinition>
+                            <ColumnDefinition Width="1*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Label Text="Logger Id" HorizontalOptions="Fill"  Grid.Column="0"  FontSize="Small" FontAttributes="Bold" BackgroundColor="SandyBrown" TextColor="Black" HorizontalTextAlignment="Center" Margin="1"/>
+                        <Label Text="Temperature" HorizontalOptions="Fill"  Grid.Column="1"   FontSize="Small" FontAttributes="Bold" BackgroundColor="SandyBrown" TextColor="Black" HorizontalTextAlignment="Center" Margin="1"/>
+                        <Label Text="Air Humidity" HorizontalOptions="Fill"  Grid.Column="2"  FontSize="Small" FontAttributes="Bold" BackgroundColor="SandyBrown" TextColor="Black" HorizontalTextAlignment="Center" Margin="1"/>
+                        <Label Text="Soil Humidity" HorizontalOptions="Fill"  Grid.Column="3"  FontSize="Small" FontAttributes="Bold" BackgroundColor="SandyBrown" TextColor="Black" HorizontalTextAlignment="Center" Margin="1"/>
+                    </Grid>
+                </ListView.Header>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Grid BackgroundColor="White"  Margin="0" Padding="0" RowSpacing="0" ColumnSpacing="0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="1*"></ColumnDefinition>
+                                    <ColumnDefinition Width="1*"></ColumnDefinition>
+                                    <ColumnDefinition Width="1*"></ColumnDefinition>
+                                    <ColumnDefinition Width="1*"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <Label Grid.Column="0" Text ="{Binding LoggerId}" HorizontalOptions="Fill" BackgroundColor="LightBlue" HorizontalTextAlignment="Center" Margin="1"></Label>
+                                <Label Grid.Column="1" Text ="{Binding Temperature}" HorizontalOptions="Fill" BackgroundColor="LightBlue" HorizontalTextAlignment="Center" Margin="1"></Label>
+                                <Label Grid.Column="2" Text ="{Binding AirHumidity}" HorizontalOptions="Fill" BackgroundColor="LightBlue" HorizontalTextAlignment="Center" Margin="1"></Label>
+                                <Label Grid.Column="3" Text ="{Binding SoilHumidity}" HorizontalOptions="Fill" BackgroundColor="LightBlue" HorizontalTextAlignment="Center" Margin="1"></Label>
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
             </ListView>
         </StackLayout>
     </ContentPage.Content>

@@ -1,10 +1,14 @@
 ﻿namespace App.Models
 {
-    class Log
+    public class Log
     {
         public double Temperature { get; set; }
         public double AirHumidity { get; set; }
         public double SoilHumidity { get; set; }
         public string LoggerId { get; set; }
+        public override string ToString()
+        {
+            return this.Temperature.ToString() + this.AirHumidity.ToString() + this.SoilHumidity.ToString() + this.LoggerId;
+        }
     }
 }

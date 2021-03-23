@@ -4,10 +4,40 @@
              x:Class="App.Views.ShowDataPage">
     <ContentPage.Content>
         <StackLayout Padding="5">
-            <ListView x:Name="PlantData" BackgroundColor="LightGray" >
-
+            <Button Text="Get Data" Command="{Binding ShowDataCommand}"/>
+            <ListView ItemsSource="{Binding Loggers}">
+                <ListView.Header>
+                    <Grid BackgroundColor="White" Padding="60,5,5,5" RowSpacing="0" >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"></ColumnDefinition>
+                            <ColumnDefinition Width="1*"></ColumnDefinition>
+                            <ColumnDefinition Width="1*"></ColumnDefinition>
+                            <ColumnDefinition Width="1*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Label Text="Logs" HorizontalOptions="Fill"  Grid.Column="0"  FontSize="Small" FontAttributes="Bold" BackgroundColor="SandyBrown" TextColor="Black" HorizontalTextAlignment="Center" Margin="1"/>
+                        <Label Text="Plants" HorizontalOptions="Fill"  Grid.Column="1"   FontSize="Small" FontAttributes="Bold" BackgroundColor="SandyBrown" TextColor="Black" HorizontalTextAlignment="Center" Margin="1"/>
+                        <Label Text="Temperature" HorizontalOptions="Fill"  Grid.Column="2"  FontSize="Micro" FontAttributes="Bold" BackgroundColor="SandyBrown" TextColor="Black" HorizontalTextAlignment="Center" Margin="1"/>
+                    </Grid>
+                </ListView.Header>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Grid BackgroundColor="White"  Margin="0" Padding="60,5,5,5" RowSpacing="0" ColumnSpacing="0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="1*"></ColumnDefinition>
+                                    <ColumnDefinition Width="1*"></ColumnDefinition>
+                                    <ColumnDefinition Width="1*"></ColumnDefinition>
+                                    <ColumnDefinition Width="1*"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <Label Grid.Column="0" Text ="{Binding Logs}" HorizontalOptions="Fill" BackgroundColor="LightBlue" HorizontalTextAlignment="Center" Margin="1"></Label>
+                                <Label Grid.Column="1" Text ="{Binding Plants}" HorizontalOptions="Fill" BackgroundColor="LightBlue" HorizontalTextAlignment="Center" Margin="1"></Label>
+                                <Label Grid.Column="2" Text ="{Binding MinimumTemperature}" HorizontalOptions="Fill" BackgroundColor="LightBlue" HorizontalTextAlignment="Center" Margin="1"></Label>
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
             </ListView>
-
         </StackLayout>
+
     </ContentPage.Content>
 </ContentPage>
