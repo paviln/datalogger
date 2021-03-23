@@ -13,15 +13,18 @@ import enum
 import http.client
 import urllib
 import sys
+import csv
 #from dotenv import load_dotenv
 
 #Setup I2C and AM2320
 i2c = busio.I2C(board.SCL, board.SDA)
 am2320 = adafruit_am2320.AM2320(i2c)
+
 #GPIO PIN Assigns
 GREEN = 20
 RED = 21
 YELLOW = 16
+
 #Global Variables
 delay = 1
 max_hum = 650.0 #Maximum value of Humidity, sensor calibrated. 
@@ -59,10 +62,6 @@ def read_temp_humd():
     print("Date and Time:",now.strftime("%Y-%m-%d %H:%M:%S"))
     print("Temperature:", air_temperature)
     print("Humidity:", air_humidity)
-    soil_humidity = read_soil_humd(0)
-    idd = "60587949da056c57e4baa6ed"
-    payload = {'temperature':air_temperature,'air_humidity':air_humidity, 'soil_humidity':soil_humidity, 'loggerId':idd}
-    payload2 = {'minimumtemperature':'null','soilType':'null', 'logs':'', 'plants':''}
     return air_temperature, air_humidity
 
 #Function that sends a GET Request to API to recieve a logger
@@ -73,6 +72,7 @@ def get_data(id):
         raise APIError('GET /logger/ {}'.format(resp.status_code))
     for logger in resp.json():
         print('{}'.format(logger['_id']))
+
 #Function that sends a POST request to API to create a logger    
 def create_logger():
     resp = requests.post(base_url+'logger/')
@@ -80,6 +80,7 @@ def create_logger():
         raise APIError('POST /logger/ {}'.format(resp.status_code))
     else:
         print("Logger Created")
+
 #Function that sends a POST request to API to create a log
 def post_log():
     air_temp, air_hum = read_temp_humd()
@@ -88,7 +89,7 @@ def post_log():
     print(air_hum)
     print(soil_hum)
     payload = {'temperature':air_temp,'air_humidity':air_hum, 'soil_humidity':soil_hum, 'loggerId':idd}
-    resp = requests.post(base_url'log/',json=payload)
+    resp = requests.post(base_url+'log/',json=payload)
     if resp.status_code != 200:
         raise APIError('POST /log/ {}'.format(resp.status_code))
     else:
@@ -140,6 +141,7 @@ class Status(enum.Enum):
    STOPPED = 3
    DRY = 4
    WET = 5
+
 #Class for APIError (Exception Handling)
 class APIError(Exception):
     """An API Error Exception"""
