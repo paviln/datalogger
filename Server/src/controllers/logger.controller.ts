@@ -69,14 +69,14 @@ const findWarnings = async (req: Request, res: Response, next: NextFunction): Pr
 const getActivePlant = async (req: Request, res: Response, next: NextFunction) => {
   await Plant.findOne({
     $and: [
-      {loggerId: req.body.loggerId},
+      {loggerId: req.params.id},
       {status: Status.ACTIVE},
     ],
   }, (err: any, plant: IPlant) => {
     if (err) {
       res.status(404).json(err);
     } else {
-      res.status(200).json(plant._id);
+      res.status(200).json(plant);
     }
   });
 };
