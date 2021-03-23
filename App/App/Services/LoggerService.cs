@@ -65,27 +65,6 @@ namespace App.Services
             var response = await client.ExecuteAsync<Log[]>(request);
 
             return response.Data;
-        }
-        public static async Task<Logger[]> GetLoggers()
-        {
-            var client = new RestClient("http://localhost:3000/api/");
-
-            var request = new RestRequest("logger", Method.GET);
-
-            var response = await client.ExecuteAsync<Logger[]>(request);
-
-            return response.Data;
-        }
-        public static async Task<Log[]> GetWarnings(string loggerId)
-        {
-            var client = new RestClient("http://localhost:3000/api/");
-
-            var request = new RestRequest("warnings", Method.GET);
-            request.AddParameter("loggerId", loggerId);
-
-            var response = await client.ExecuteAsync<Log[]>(request);
-
-            return response.Data;
-        }
+        }        
     }
 }
