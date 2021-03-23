@@ -48,10 +48,8 @@ const update = async (req: Request, res: Response, next: NextFunction): Promise<
   });
 };
 
-const findWarningsInLogs = async (req: Request,
-    res: Response,
-    next: NextFunction): Promise<void> => {
-  const logger: ILogger = await Logger.findById(req.body.loggerId);
+const findWarnings = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  const logger: ILogger = await Logger.findById(req.params.id);
   if (logger) {
     const logs: ILog[] = await getLogsInPeriod(15);
 
@@ -80,4 +78,4 @@ const getLogsInPeriod = async (period: number): Promise<ILog[]> => {
   return logs;
 };
 
-export {getLogger, getLoggers, create, update, findWarningsInLogs};
+export {getLogger, getLoggers, create, update, findWarnings};

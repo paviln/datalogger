@@ -16,7 +16,7 @@ const PlantSchema = new Schema(
       img:
       {
         data: Buffer,
-        contentType: String
+        contentType: String,
       },
       loggerId: {
         type: Schema.Types.ObjectId,

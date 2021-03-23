@@ -1,6 +1,6 @@
 import {NextFunction, Request, Response} from 'express';
 
-import Plant, {IPlant} from '../models/plant';
+import Plant from '../models/plant';
 import Logger from '../models/logger';
 
 const create = async (req: Request, res: Response, next: NextFunction) => {
@@ -11,16 +11,16 @@ const create = async (req: Request, res: Response, next: NextFunction) => {
     console.log(error);
   }
   if (doesLoggerExsist) {
-    var plant: any = 
+    const plant: any =
     {
       name: req.body.name,
       img: {
         data: req.file.buffer,
-        contentType: 'image/png'
+        contentType: 'image/png',
       },
       loggerId: req.body.loggerId,
-    } 
-    console.log(plant)
+    };
+    console.log(plant);
     Plant.create(plant, (err: any, plant: any) => {
       if (err) {
         res.send(err);
