@@ -12,7 +12,7 @@ namespace App.Services
         private static readonly string apiBaseUrl = Config.getApiBaseUrl();
         public static async Task<bool> DoesLoggerExist(string loggerId)
         {
-            var client = new RestClient("http://10.0.2.2:3000/api/");
+            var client = new RestClient(apiBaseUrl);
 
             var request = new RestRequest("logger", Method.GET);
             request.AddHeader("Content-type", "application/json");
