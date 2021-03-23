@@ -17,9 +17,7 @@ def get_logger(logger_id):
 
 #Function to send a POST request to API
 def post_logger():
-    return requests.post(_url('/logger/'), json={
-        
-        })
+    return requests.post(_url('/logger/'), json={})
 
 #Function to send a POST request to API
 def post_log(air_temp,air_humd,soil_hum,log_id):
