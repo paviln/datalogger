@@ -14,8 +14,9 @@ import http.client
 import urllib
 import sys
 import csv
-#from dotenv import load_dotenv
-
+import ApiCalls
+from dotenv import load_dotenv
+from pathlib import Path
 #Setup I2C and AM2320
 i2c = busio.I2C(board.SCL, board.SDA)
 am2320 = adafruit_am2320.AM2320(i2c)
@@ -30,8 +31,6 @@ delay = 1
 max_hum = 650.0 #Maximum value of Humidity, sensor calibrated. 
 initial_time = time.monotonic()
 warning = ""
-
-base_url = "http://192.168.87.133:3000/api/"
 
 #SPI Module Setup
 spi = spidev.SpiDev() #New Object
@@ -65,56 +64,52 @@ def read_temp_humd():
     return air_temperature, air_humidity
 
 #Function that sends a GET Request to API to recieve a logger
-def get_data(id):
-    resp = requests.get(base_url+'logger/'+id)
-    if resp.status_code != 200:
+def get_data(_idd):
+    resp = ApiCalls.get_logger(_idd)
+    httpcode = resp.status_code
+    if httpcode != 200:
         # This means something went wrong.
-        raise APIError('GET /logger/ {}'.format(resp.status_code))
+        raise APIError('GET /logger/ {}'.format(httpcode))
     for logger in resp.json():
         print('{}'.format(logger['_id']))
 
 #Function that sends a POST request to API to create a logger    
 def create_logger():
-    resp = requests.post(base_url+'logger/')
-    if resp.status_code != 200 or 201:
-        raise APIError('POST /logger/ {}'.format(resp.status_code))
+    payload = {'minimumTemperature':'','soilType':'','logs':'','plants':''}
+    resp = ApiCalls.post_logger(0,0,0,0)
+    httpcode = resp.status_code
+    if httpcode!= 200:
+        raise APIError('POST /logger/ {}'.format(httpcode))
     else:
-        print("Logger Created")
+        print("Logger Created:"+ str(httpcode))
 
 #Function that sends a POST request to API to create a log
 def post_log():
     air_temp, air_hum = read_temp_humd()
     soil_hum = read_soil_humd(0)
-    print(air_temp)
-    print(air_hum)
-    print(soil_hum)
-    payload = {'temperature':air_temp,'air_humidity':air_hum, 'soil_humidity':soil_hum, 'loggerId':idd}
-    resp = requests.post(base_url+'log/',json=payload)
-    if resp.status_code != 200:
-        raise APIError('POST /log/ {}'.format(resp.status_code))
+    log_id = '60586f33b5943a427c675537'
+    #print(soil_hum)
+    resp = ApiCalls.post_log(air_temp,air_hum,soil_hum,log_id)
+    #payload = {'temperature':air_temp,'air_humidity':air_hum, 'soil_humidity':soil_hum, 'loggerId':idd}
+    #resp = requests.post(_url('log/'),json=payload)
+    httpcode = resp.status_code
+    if httpcode != 200:
+        raise APIError('POST /log/ {}'.format(httpcode))
     else:
-        print("Log posted")
+        print("Log posted: "+ str(resp.status_code))
 
-#def get_warning():
-  # global warning
-  #  warning = 
-
-#def led_turn_on():
-    
-#Function that writes every DATA collected to a local file
-def write_to_file():
-    #send data
-    file_name = datetime.now().strftime("%m.%d.%Y, %H:%M:%S") + ".txt"
-    with open(file_name, 'w+') as outfile:
-            json.dump(log, outfile, indent=4, cls=LogEncoder)
+#def _url(path):
+ #   return 'http://192.168.87.133:3000/api/'+path
 
 #this is main function
 def main():
     try:
         initialize_gpio()
-        read_temp_humd()
-        #get_data()
+        #read_temp_humd()
+        #get_data("60587949da056c57e4baa6ed")
         post_log()
+        create_logger()
+        
         while True:
             val = read_soil_humd(0)
             #read_temp_humd()
