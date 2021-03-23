@@ -12,6 +12,6 @@ cd py-spidev/
 
 sudo python setup.py install
 
-Install dotenv module
+Install the dotenv module for enviroment handling
 
-sudo install python3-dotenv
+pip install python-dotenv
