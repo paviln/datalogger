@@ -15,7 +15,14 @@ namespace App.ViewsModels
         public ICommand SecondPageNavCommand { get; set; }
         public ICommand ShowDataCommand { get; set; }
         private Logger[] loggers;
-        public Logger[] Loggers { get { return loggers; } set { loggers = value; OnPropertyChanged(); } } 
+        public Logger[] Loggers { get { return loggers; } set { loggers = value; OnPropertyChanged(); } }
+        private string loggerId;
+        public string LoggerId 
+        {
+            get { return loggerId; }
+            set { loggerId = value; OnPropertyChanged(); }
+        }
+
         public ShowDataViewModel(INavigationService navigationService) : base(navigationService)
         {
             NavigationService = navigationService;
@@ -29,15 +36,9 @@ namespace App.ViewsModels
         }
         //Http GET
         private async Task GetData()
-        {
-            var loggers = await LoggerService.GetLoggers();
-            Loggers = new Logger[]
-            {
-                new Logger(){MinimumTemperature = 5},
-                new Logger(){MinimumTemperature = 5}
-
-            };
-            
+        {            
+            var plantId = await LoggerService.GetPlantId(loggerId);
+            System.Console.WriteLine(plantId);
         }
     }
 }

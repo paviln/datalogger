@@ -47,7 +47,7 @@ namespace App.Services
         }
         public static async Task<Logger[]> GetLoggers()
         {
-            var client = new RestClient("http://localhost:3000/api/");
+            var client = new RestClient(apiBaseUrl);
 
             var request = new RestRequest("logger", Method.GET);
 
@@ -57,7 +57,7 @@ namespace App.Services
         }
         public static async Task<Log[]> GetWarnings(string loggerId)
         {
-            var client = new RestClient("http://localhost:3000/api/");
+            var client = new RestClient(apiBaseUrl);
 
             var request = new RestRequest("warnings", Method.GET);
             request.AddParameter("loggerId", loggerId);
@@ -66,5 +66,15 @@ namespace App.Services
 
             return response.Data;
         }        
+        public static async Task<string> GetPlantId(string loggerId)
+        {
+            var client = new RestClient(apiBaseUrl);
+            var request = new RestRequest("loggers/active", Method.GET);
+            request.AddParameter("loggerId", loggerId);
+
+            var response = await client.ExecuteAsync<string>(request);
+
+            return response.Data;
+        }
     }
 }
