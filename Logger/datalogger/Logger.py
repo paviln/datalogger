@@ -67,16 +67,16 @@ def get_data(_idd):
     resp = ApiCalls.get_logger(_idd)
     httpcode = resp.status_code
     if httpcode != 200:
-        raise APIError('GET /logger/ {}'.format(httpcode))
-    for logger in resp.json():
-        print('{}'.format(logger['_id']))
+        jprint(resp.json())
+        #raise APIError('GET /logger/{}'.format(httpcode))
+    else:
+        jprint(resp.json())
 
 #Function that sends a POST request to API to create a logger    
-def create_logger():
-    payload = {'minimumTemperature':'','soilType':'','logs':'','plants':''}
-    resp = ApiCalls.post_logger(0,0,0,0)
+def post_logger():
+    resp = ApiCalls.post_logger()
     httpcode = resp.status_code
-    if httpcode!= 200:
+    if httpcode!= 201:
         raise APIError('POST /logger/ {}'.format(httpcode))
     else:
         print("Logger Created:"+ str(httpcode))
@@ -85,22 +85,27 @@ def create_logger():
 def post_log():
     air_temp, air_hum = read_temp_humd()
     soil_hum = read_soil_humd(0)
-    log_id = '60586f33b5943a427c675537'
+    log_id = '605a12617ff9377b98755a48'
     resp = ApiCalls.post_log(air_temp,air_hum,soil_hum,log_id)
+    print(resp.text)
     httpcode = resp.status_code
-    if httpcode != 200:
-        raise APIError('POST /log/ {}'.format(httpcode))
+    if httpcode != 201:
+        jprint(resp.json())
+        #raise APIError('POST /log/ {}'.format(httpcode))
     else:
         print("Log posted: "+ str(resp.status_code))
+def jprint(obj):
+    text = json.dumps(obj,sort_keys=True,indent=4)
+    print(text)
 
 #This is main function
 def main():
     try:
         initialize_gpio()
         #read_temp_humd()
-        #get_data("60587949da056c57e4baa6ed")
+        #get_data('605a12617ff9377b98755a48')
         post_log()
-        create_logger()
+        #post_logger()
         
         while True:
             val = read_soil_humd(0)
