@@ -15,6 +15,9 @@ import sys
 import ApiCalls
 from dotenv import load_dotenv
 from pathlib import Path
+from apscheduler.schedulers.background import BackgroundScheduler
+from apscheduler.schedulers.blocking import BlockingScheduler
+sched = BlockingScheduler()
 
 #Setup I2C and AM2320
 i2c = busio.I2C(board.SCL, board.SDA)
@@ -57,9 +60,9 @@ def read_temp_humd():
     air_temperature = am2320.temperature
     air_humidity = am2320.relative_humidity
     now = datetime.datetime.now()
-    print("Date and Time:",now.strftime("%Y-%m-%d %H:%M:%S"))
-    print("Temperature:", air_temperature)
-    print("Humidity:", air_humidity)
+    #print("Date and Time:",now.strftime("%Y-%m-%d %H:%M:%S"))
+    #print("Temperature:", air_temperature)
+    #print("Humidity:", air_humidity)
     return air_temperature, air_humidity
 
 #Function that sends a GET Request to API to recieve a logger
@@ -67,12 +70,11 @@ def get_data(_idd):
     resp = ApiCalls.get_logger(_idd)
     httpcode = resp.status_code
     if httpcode != 200:
-        jprint(resp.json())
-        #raise APIError('GET /logger/{}'.format(httpcode))
+        raise APIError('GET /logger/{}'.format(httpcode))
     else:
         jprint(resp.json())
 
-#Function that sends a POST request to API to create a logger    
+#Function that sends a POST request to API to create a logger  
 def post_logger():
     resp = ApiCalls.post_logger()
     httpcode = resp.status_code
@@ -81,19 +83,22 @@ def post_logger():
     else:
         print("Logger Created:"+ str(httpcode))
 
+@sched.scheduled_job('interval', seconds=10)
+def printtest():
+    print("This is a test 10s")
 #Function that sends a POST request to API to create a log
+#@sched.scheduled_job('interval', seconds=10)
 def post_log():
     air_temp, air_hum = read_temp_humd()
     soil_hum = read_soil_humd(0)
     log_id = '605a12617ff9377b98755a48'
     resp = ApiCalls.post_log(air_temp,air_hum,soil_hum,log_id)
-    print(resp.text)
     httpcode = resp.status_code
     if httpcode != 201:
-        jprint(resp.json())
-        #raise APIError('POST /log/ {}'.format(httpcode))
+        raise APIError('POST /log/ {}'.format(httpcode))
     else:
         print("Log posted: "+ str(resp.status_code))
+        jprint(resp.json())
 def jprint(obj):
     text = json.dumps(obj,sort_keys=True,indent=4)
     print(text)
@@ -102,13 +107,9 @@ def jprint(obj):
 def main():
     try:
         initialize_gpio()
-        #read_temp_humd()
-        #get_data('605a12617ff9377b98755a48')
-        post_log()
-        #post_logger()
-        
         while True:
-            val = read_soil_humd(0)
+            printtest()
+            #val = read_soil_humd(0)
             #read_temp_humd()
             if(val!=0):
                 if(val > 50):
