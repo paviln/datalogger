@@ -1,3 +1,4 @@
+##-----------------------------imports START-----------------------------------------##
 import RPi.GPIO as GPIO
 import json
 from json import JSONEncoder
@@ -13,26 +14,24 @@ import enum
 import urllib
 import sys
 import ApiCalls
+import asyncio
 from pytz import timezone
-from apscheduler.schedulers.background import BackgroundScheduler
-from apscheduler.schedulers.blocking import BlockingScheduler
+import schedule
+##-----------------------------imports END-----------------------------------------##
+loop = asyncio.get_event_loop()
 #Setup I2C and AM2320
 i2c = busio.I2C(board.SCL, board.SDA)
 am2320 = adafruit_am2320.AM2320(i2c)
-#apscheduler setup
-sched = BlockingScheduler()
-scheduler = BackgroundScheduler()
+
 cet = datetime.now(timezone('Europe/Amsterdam'))
 #GPIO PIN Assigns
-GREEN = 20
-RED = 21
+GREEN = 21
+RED = 20
 YELLOW = 16
 
 #Global Variables
 delay = 1
-max_hum = 650.0 #Maximum value of Humidity, sensor calibrated. 
-initial_time = time.monotonic()
-globaltime = 0
+max_hum = 520.0 #Maximum value of Humidity, sensor calibrated. 
 minimumtemp = 0
 plantid = ""
 loggerid = ""
@@ -42,15 +41,16 @@ spi = spidev.SpiDev() #New Object
 spi.open(0,0)
 spi.max_speed_hz = 1000000
 
+
 def initialize_gpio():
     GPIO.setmode(GPIO.BCM)
-    GPIO.setup(GREEN,GPIO.OUT,initial=GPIO.LOW) #RED
-    GPIO.setup(RED,GPIO.OUT,initial=GPIO.LOW) #GREEN
-    GPIO.setup(YELLOW,GPIO.OUT,initial=GPIO.LOW) #YELLOW
+    GPIO.setup(GREEN,GPIO.OUT,initial=GPIO.LOW)
+    GPIO.setup(RED,GPIO.OUT,initial=GPIO.LOW) 
+    GPIO.setup(YELLOW,GPIO.OUT,initial=GPIO.LOW) 
     GPIO.setwarnings(False)
-    
+
 #Function to Read from YL69 (soil sensor) returns percentage humidity
-def read_soil_humd(channel):
+async def read_soil_humd(channel):
     val = spi.xfer2([1,(8+channel)<<4,0])
     if(0 <=val [1] <=3):
         data = 1023 - ((val[1] * 256) + val[2])
@@ -59,17 +59,18 @@ def read_soil_humd(channel):
     return percentage
 
 #Function to read air temperature and air humidity returns both values
-def read_temp_humd():
+async def read_temp_humd():
     air_temperature = am2320.temperature
     air_humidity = am2320.relative_humidity
-    now = datetime.datetime.now()
-    print("Date and Time:",now.strftime("%Y-%m-%d %H:%M:%S"))
+    #now = datetime.datetime.now()
+    #print("Date and Time:",now.strftime("%Y-%m-%d %H:%M:%S"))
     print("Temperature:", air_temperature)
     print("Humidity:", air_humidity)
+    time.sleep(delay)
     return air_temperature, air_humidity
 
 #Function that sends a GET Request to API to recieve a logger
-def get_data(_idd):
+async def get_data(_idd):
     resp = ApiCalls.get_logger(_idd)
     httpcode = resp.status_code
     if httpcode != 200:
@@ -78,9 +79,9 @@ def get_data(_idd):
         jprint(resp.json())
 
 #Function that sends a POST request to API to create a logger  
-def post_logger():
+async def post_logger():
     global loggerid
-    resp = ApiCalls.post_logger()
+    resp = await ApiCalls.post_logger()
     httpcode = resp.status_code
     if httpcode!= 201:
         raise APIError('POST /logger/ {}'.format(httpcode))
@@ -89,15 +90,16 @@ def post_logger():
         rawtext = json.dumps(resp.json(),sort_keys=True,indent=4)
         json_plant_object = json.loads(rawtext)
         loggerid = json_plant_object["_id"]
-        print("Logger posted and ID recieved: "+ str(resp.status_code))
+        print("Logger posted and ID recieved: "+ loggerid +' with status code: '+ str(resp.status_code))
+    #return loggerid
 
 #Function that sends a POST request to API to create a log
-def post_log():
-    air_temp, air_hum = read_temp_humd()
-    soil_hum = read_soil_humd(0)
-    plant_id = plantid
-    print(plant_id)
-    resp = ApiCalls.post_log(air_temp,air_hum,soil_hum,plant_id)
+async def post_log():
+    air_temp, air_hum = await read_temp_humd()
+    soil_hum = await read_soil_humd(0)
+    #plant_id = await get_plantid_by_loggerid(0)
+    print(plantid)
+    resp = await ApiCalls.post_log(air_temp,air_hum,soil_hum,plantid)
     httpcode = resp.status_code
     if httpcode != 201:
         raise APIError('POST /log/ {}'.format(httpcode))
@@ -105,9 +107,11 @@ def post_log():
         print("Log posted: "+ str(resp.status_code))
         jprint(resp.json())
     
-def get_plantid_by_loggerid(_loggerid):
+#Function thats send a GET request to API to GET a plant_ID by LoggerID    
+async def get_plantid_by_loggerid():
     global plantid
-    resp = ApiCalls.get_plantby_loggerid(_loggerid)
+    print(loggerid)
+    resp = await ApiCalls.get_plantby_loggerid(loggerid)
     httpcode = resp.status_code
     if httpcode != 200:
         raise APIError('GET /logger/{}'.format(httpcode))
@@ -116,28 +120,38 @@ def get_plantid_by_loggerid(_loggerid):
         json_plant_object = json.loads(rawtext)
         plantid = json_plant_object["_id"]
         print("Plant ID recieved: "+ str(resp.status_code))
+    #return plantid
 
-@sched.scheduled_job('interval', seconds=10)
+def raise_warning():
+    GPIO.output(RED,1)
+    print("warning temperature is lower than minimum temperature")
+
 def testprint():
-    print("Im executed every 10th second")
+    print("Im executed every 5th second")
 
 #Function for sorting/printing JSON objects
 def jprint(obj):
     text = json.dumps(obj,sort_keys=True,indent=4)
     print(text)
-
 #This is main function
-def main():
+async def main():
     try:
         initialize_gpio()
-        testprint()
+        #schedule.every(5).seconds.do(testprint)
+        schedule.every().hour.do(post_logger)
+        time.sleep(delay)
+        schedule.every().hour.do(get_plantid_by_loggerid)
+        time.sleep(delay)
+        schedule.every().hour.do(post_log)
         while True:
-            
-            val = read_soil_humd(0)
-            #read_temp_humd()
-            #post_logger()
-            #get_plantid_by_loggerid(loggerid)
-            #post_log()
+            val = await read_soil_humd(0)
+            schedule.run_pending()
+            await read_temp_humd()
+            await post_logger()
+            time.sleep(10)
+            await get_plantid_by_loggerid()
+            time.sleep(2)
+            await post_log()
             if(val!=0):
                 if(val > 50):
                     GPIO.output(GREEN,1)
@@ -151,16 +165,8 @@ def main():
     except KeyboardInterrupt:
         print("Program Terminated")
     finally:
-        #GPIO.cleanup()
+        GPIO.cleanup()
         spi.close()
-
-#Class for ENUM status
-class Status(enum.Enum):
-   WAITING = 1
-   LOGGING = 2
-   STOPPED = 3
-   DRY = 4
-   WET = 5
 
 #Class for APIError (Exception Handling)
 class APIError(Exception):
@@ -172,6 +178,16 @@ class APIError(Exception):
     def __str__(self):
         return "APIError: status={}".format(self.status)
 
+#Class for ENUM status
+class Status(enum.Enum):
+   WAITING = 1
+   LOGGING = 2
+   STOPPED = 3
+   DRY = 4
+   WET = 5
+
+asyncio.ensure_future(main())
+loop.run_forever()
 #Invokes Main Method
-if __name__=="__main__":
-    main()
+#if __name__=="__main__":
+ #   main()

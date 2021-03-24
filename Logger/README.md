@@ -37,9 +37,9 @@ sudo pip3 install python-dotenv
 
 ------------------------------------------------
 
-install apscheduler module for job scheduling
+install schedule module for job scheduling
 
-sudo pip3 install apscheduler
+sudo pip3 install schedule
 
 -----------------------------------------
 Change the SERVER_IP in connectiondata.env file in the config folder
