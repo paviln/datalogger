@@ -1,4 +1,4 @@
-#DATALOGGER
+LOGGER
 ---------------------------------------------
 
 --Pi Software Configuration:
@@ -8,11 +8,13 @@ Update your Raspberry Pi with cmd:
 sudo apt update
 
 sudo apt upgrade -y
+
 --------------------------------------------
 
 Install pyenv to manage Python versions and download/install python 3.7
 Follow the instruction on the following link:
-https://realpython.com/intro-to-pyenv/ 
+https://realpython.com/intro-to-pyenv/
+
 ----------------------------------------------
 
 To make YL69/38 work, first enable SPI Interface on the raspberry pi. 
@@ -26,11 +28,13 @@ git clone git://github.com/doceme/py-spidev
 cd py-spidev/
 
 sudo python setup.py install or sudo pip3 install spidev
+
 ----------------------------------------
 
 Install the dotenv module for enviroment handling
 
 sudo pip3 install python-dotenv
+
 ------------------------------------------------
 
 install apscheduler module for job scheduling
