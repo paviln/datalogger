@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using App.Helpers;
 using App.Models;
 using RestSharp;
+using RestSharp.Serializers.SystemTextJson;
 
 namespace App.Services
 {
@@ -39,7 +40,7 @@ namespace App.Services
             request.AddHeader("Content-Type", "multipart/form-data");
             request.AddParameter("name", plant.Name);
             request.AddParameter("loggerId", plant.LoggerId);
-            request.AddFile("image", plant.File, "image.jpeg");
+            request.AddFile("image", plant.Img, "image.jpeg");
 
             var response = await client.ExecutePostAsync(request);
 
@@ -65,16 +66,20 @@ namespace App.Services
             var response = await client.ExecuteAsync<Log[]>(request);
 
             return response.Data;
-        }        
+        }   
         public static async Task<Plant> GetPlantId(string loggerId)
         {
             var client = new RestClient(apiBaseUrl);
-            var request = new RestRequest("logger/active", Method.GET);
-            request.AddParameter("loggerId", loggerId);
+            var options = new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true,
+            };
+            client.UseSystemTextJson(options);
+            var request = new RestRequest("logger/active/" + loggerId, Method.GET);
+            //request.AddParameter("loggerId", loggerId);
 
            
-            var response = await client.ExecuteAsync<Plant>(request);
-
+            var response = await client.ExecuteAsync<Plant>(request);        
             return response.Data;
         }
     }

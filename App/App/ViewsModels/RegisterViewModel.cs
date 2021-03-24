@@ -57,7 +57,7 @@ namespace App.ViewsModels
                 {
                     Name = name,
                     LoggerId = loggerId,
-                    File = file
+                    Img = file
                 };
                 var success = await LoggerService.SavePlant(plant);
 
