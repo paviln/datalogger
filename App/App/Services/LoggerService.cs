@@ -38,6 +38,7 @@ namespace App.Services
 
             var request = new RestRequest("plant", Method.POST);
             request.AddHeader("Content-Type", "multipart/form-data");
+            request.AddParameter("loggerId", plant.LoggerId);
             request.AddParameter("name", plant.Name);
             request.AddParameter("loggerId", plant.LoggerId);
             request.AddFile("image", plant.Img, "image.jpeg");
@@ -76,10 +77,10 @@ namespace App.Services
             };
             client.UseSystemTextJson(options);
             var request = new RestRequest("logger/active/" + loggerId, Method.GET);
-            //request.AddParameter("loggerId", loggerId);
 
-           
-            var response = await client.ExecuteAsync<Plant>(request);        
+            var response = await client.ExecuteAsync<Plant>(request);     
+    
+            
             return response.Data;
         }
     }

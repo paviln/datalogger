@@ -2,25 +2,25 @@
 <ContentPage Title="Register Plant" xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:viewmodel="clr-namespace:App.ViewsModels"
              x:Class="App.Views.RegisterPage">
-    <StackLayout Padding="5">
-        
+    <StackLayout Margin="20, 25" Padding="0">
         <Label Text="Logger Id"/>
         <Entry Text="{Binding LoggerId}" />
         <Label Text="Name"/>
         <Entry Text="{Binding Name}" />
-        <Grid >
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-            <Button Text="Save" Command="{Binding SavePlantCommand}" Grid.Column="0"/>
-            <Button Text="Photo" Command="{Binding TakePhotoCommand}" Grid.Column="1"/>
-        </Grid>
-        <Image Source="{Binding Image}"  HeightRequest="300" WidthRequest="300"/>
+        <Label Text="Minimum temperature" />
+        <Entry Text="{}" />
+        <Label Text="Soil type" />
+        <Picker>
+            <Picker.ItemsSource>
+                <x:Array Type="{x:Type x:String}">
+                    <x:String>Dry</x:String>
+                    <x:String>Wet</x:String>
+                </x:Array>
+            </Picker.ItemsSource>
+        </Picker>
+        <Button Text="Take Photo" Command="{Binding TakePhotoCommand}" />
+        <Label Text="and" TextColor="Black" HorizontalTextAlignment="Center" />
+        <Button Text="Save" Command="{Binding SavePlantCommand}" />
+        <Image Source="{Binding Image}"  HeightRequest="300" WidthRequest="300" />
     </StackLayout>
-
 </ContentPage>
