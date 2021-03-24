@@ -5,7 +5,7 @@ import requests
 import spidev
 import os
 import time
-import datetime
+from datetime import datetime
 import adafruit_am2320
 import board
 import busio
@@ -13,16 +13,16 @@ import enum
 import urllib
 import sys
 import ApiCalls
-from dotenv import load_dotenv
-from pathlib import Path
+from pytz import timezone
 from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.schedulers.blocking import BlockingScheduler
-sched = BlockingScheduler()
-
 #Setup I2C and AM2320
 i2c = busio.I2C(board.SCL, board.SDA)
 am2320 = adafruit_am2320.AM2320(i2c)
-
+#apscheduler setup
+sched = BlockingScheduler()
+scheduler = BackgroundScheduler()
+cet = datetime.now(timezone('Europe/Amsterdam'))
 #GPIO PIN Assigns
 GREEN = 20
 RED = 21
@@ -32,13 +32,16 @@ YELLOW = 16
 delay = 1
 max_hum = 650.0 #Maximum value of Humidity, sensor calibrated. 
 initial_time = time.monotonic()
-warning = ""
+globaltime = 0
+minimumtemp = 0
+plantid = ""
+loggerid = ""
 
 #SPI Module Setup
 spi = spidev.SpiDev() #New Object
 spi.open(0,0)
 spi.max_speed_hz = 1000000
-    
+
 def initialize_gpio():
     GPIO.setmode(GPIO.BCM)
     GPIO.setup(GREEN,GPIO.OUT,initial=GPIO.LOW) #RED
@@ -60,9 +63,9 @@ def read_temp_humd():
     air_temperature = am2320.temperature
     air_humidity = am2320.relative_humidity
     now = datetime.datetime.now()
-    #print("Date and Time:",now.strftime("%Y-%m-%d %H:%M:%S"))
-    #print("Temperature:", air_temperature)
-    #print("Humidity:", air_humidity)
+    print("Date and Time:",now.strftime("%Y-%m-%d %H:%M:%S"))
+    print("Temperature:", air_temperature)
+    print("Humidity:", air_humidity)
     return air_temperature, air_humidity
 
 #Function that sends a GET Request to API to recieve a logger
@@ -76,29 +79,49 @@ def get_data(_idd):
 
 #Function that sends a POST request to API to create a logger  
 def post_logger():
+    global loggerid
     resp = ApiCalls.post_logger()
     httpcode = resp.status_code
     if httpcode!= 201:
         raise APIError('POST /logger/ {}'.format(httpcode))
     else:
         print("Logger Created:"+ str(httpcode))
+        rawtext = json.dumps(resp.json(),sort_keys=True,indent=4)
+        json_plant_object = json.loads(rawtext)
+        loggerid = json_plant_object["_id"]
+        print("Logger posted and ID recieved: "+ str(resp.status_code))
 
-@sched.scheduled_job('interval', seconds=10)
-def printtest():
-    print("This is a test 10s")
 #Function that sends a POST request to API to create a log
-#@sched.scheduled_job('interval', seconds=10)
 def post_log():
     air_temp, air_hum = read_temp_humd()
     soil_hum = read_soil_humd(0)
-    log_id = '605a12617ff9377b98755a48'
-    resp = ApiCalls.post_log(air_temp,air_hum,soil_hum,log_id)
+    plant_id = plantid
+    print(plant_id)
+    resp = ApiCalls.post_log(air_temp,air_hum,soil_hum,plant_id)
     httpcode = resp.status_code
     if httpcode != 201:
         raise APIError('POST /log/ {}'.format(httpcode))
     else:
         print("Log posted: "+ str(resp.status_code))
         jprint(resp.json())
+    
+def get_plantid_by_loggerid(_loggerid):
+    global plantid
+    resp = ApiCalls.get_plantby_loggerid(_loggerid)
+    httpcode = resp.status_code
+    if httpcode != 200:
+        raise APIError('GET /logger/{}'.format(httpcode))
+    else:
+        rawtext = json.dumps(resp.json(),sort_keys=True,indent=4)
+        json_plant_object = json.loads(rawtext)
+        plantid = json_plant_object["_id"]
+        print("Plant ID recieved: "+ str(resp.status_code))
+
+@sched.scheduled_job('interval', seconds=10)
+def testprint():
+    print("Im executed every 10th second")
+
+#Function for sorting/printing JSON objects
 def jprint(obj):
     text = json.dumps(obj,sort_keys=True,indent=4)
     print(text)
@@ -107,10 +130,14 @@ def jprint(obj):
 def main():
     try:
         initialize_gpio()
+        testprint()
         while True:
-            printtest()
-            #val = read_soil_humd(0)
+            
+            val = read_soil_humd(0)
             #read_temp_humd()
+            #post_logger()
+            #get_plantid_by_loggerid(loggerid)
+            #post_log()
             if(val!=0):
                 if(val > 50):
                     GPIO.output(GREEN,1)
@@ -124,7 +151,7 @@ def main():
     except KeyboardInterrupt:
         print("Program Terminated")
     finally:
-        GPIO.cleanup()
+        #GPIO.cleanup()
         spi.close()
 
 #Class for ENUM status
