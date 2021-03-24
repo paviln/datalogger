@@ -6,9 +6,9 @@
         <Label Text="Logger Id"/>
         <Entry Text="{Binding LoggerId}" />
         <Label Text="Name"/>
-        <Entry Text="{Binding Name}" />
+        <Entry Text="{Binding Plant.Name}" />
         <Label Text="Minimum temperature" />
-        <Entry Text="{}" />
+        <Entry Text="{Binding Plant.MinimumTemperature}" />
         <Label Text="Soil type" />
         <Picker>
             <Picker.ItemsSource>

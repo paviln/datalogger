@@ -9,4 +9,6 @@ const upload = multer();
 router.route('/')
     .post(upload.single('image'), plantController.create);
 
+router.get('/getfile/:id', plantController.getFile);
+
 export default router;

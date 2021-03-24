@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="App.Views.NotificationPage">
     <ContentPage.Content>
-        <StackLayout>
+        <StackLayout Margin="20, 25">
             <Label Text="Logger Id" />
             <Entry Text="{Binding LoggerId}"/>
             <Button Text="Show Notifications" Command="{Binding ShowNotificationCommand}"/>
@@ -32,7 +32,7 @@
                                     <ColumnDefinition Width="1*"></ColumnDefinition>
                                     <ColumnDefinition Width="1*"></ColumnDefinition>
                                 </Grid.ColumnDefinitions>
-                                <Label Grid.Column="0" Text ="{Binding LoggerId}" HorizontalOptions="Fill" BackgroundColor="LightBlue" HorizontalTextAlignment="Center" Margin="1"></Label>
+                                <Label Grid.Column="0" Text ="{Binding PlantId}" HorizontalOptions="Fill" BackgroundColor="LightBlue" HorizontalTextAlignment="Center" Margin="1"></Label>
                                 <Label Grid.Column="1" Text ="{Binding Temperature}" HorizontalOptions="Fill" BackgroundColor="LightBlue" HorizontalTextAlignment="Center" Margin="1"></Label>
                                 <Label Grid.Column="2" Text ="{Binding AirHumidity}" HorizontalOptions="Fill" BackgroundColor="LightBlue" HorizontalTextAlignment="Center" Margin="1"></Label>
                                 <Label Grid.Column="3" Text ="{Binding SoilHumidity}" HorizontalOptions="Fill" BackgroundColor="LightBlue" HorizontalTextAlignment="Center" Margin="1"></Label>

@@ -75,10 +75,12 @@ const getActivePlant = async (req: Request, res: Response, next: NextFunction) =
   }, (err: any, plant: IPlant) => {
     if (err) {
       res.status(404).json(err);
+    } else if (plant == null) {
+      res.status(404);
     } else {
       res.status(200).json(plant);
     }
-  });
+  }).select('-img');
 };
 
 export {getLogger, getLoggers, create, update, findWarnings, getActivePlant};

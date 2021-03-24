@@ -7,6 +7,7 @@ using System.Windows.Input;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 using App.Helpers;
+using System.Collections.Generic;
 
 namespace App.ViewsModels
 {
@@ -53,11 +54,19 @@ namespace App.ViewsModels
         {
             if (!String.IsNullOrEmpty(name) && !String.IsNullOrEmpty(LoggerId) && file != null)
             {
+                var data = new Data()
+                {
+                    data = file
+                };
+                var img = new Models.Image()
+                {
+                    Data = data
+                };
                 var plant = new Plant()
                 {
                     Name = name,
                     LoggerId = loggerId,
-                    Img = file
+                    Img = img
                 };
                 var success = await LoggerService.SavePlant(plant);
 

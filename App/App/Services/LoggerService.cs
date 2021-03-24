@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Text.Json;
 using System.Threading.Tasks;
 using App.Helpers;
@@ -41,7 +42,7 @@ namespace App.Services
             request.AddParameter("loggerId", plant.LoggerId);
             request.AddParameter("name", plant.Name);
             request.AddParameter("loggerId", plant.LoggerId);
-            request.AddFile("image", plant.Img, "image.jpeg");
+            request.AddFile("image", plant.Img.Data.data, "image.jpeg");
 
             var response = await client.ExecutePostAsync(request);
 
@@ -57,30 +58,44 @@ namespace App.Services
 
             return response.Data;
         }
-        public static async Task<Log[]> GetWarnings(string loggerId)
+        public static async Task<List<Log>> GetWarnings(string loggerId)
         {
             var client = new RestClient(apiBaseUrl);
 
-            var request = new RestRequest("warnings", Method.GET);
-            request.AddParameter("loggerId", loggerId);
+            var request = new RestRequest("logger/warnings/" + loggerId, Method.GET);
 
-            var response = await client.ExecuteAsync<Log[]>(request);
+            var response = await client.ExecuteAsync<List<Log>>(request);
 
             return response.Data;
         }   
-        public static async Task<Plant> GetPlantId(string loggerId)
+        public static async Task<Plant> GetPlant(string loggerId)
         {
             var client = new RestClient(apiBaseUrl);
             var options = new JsonSerializerOptions
             {
-                PropertyNameCaseInsensitive = true,
+                PropertyNameCaseInsensitive = true
             };
             client.UseSystemTextJson(options);
+
             var request = new RestRequest("logger/active/" + loggerId, Method.GET);
 
-            var response = await client.ExecuteAsync<Plant>(request);     
-    
-            
+            var response = await client.ExecuteAsync<Plant>(request);
+
+            return response.Data;
+        }
+        public static async Task<Image> GetImage(string plantId)
+        {
+            var client = new RestClient(apiBaseUrl);
+            var options = new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            };
+            client.UseSystemTextJson(options);
+
+            var request = new RestRequest("plant/getfile/" + plantId, Method.GET);
+
+            var response = await client.ExecuteAsync<Image>(request);
+
             return response.Data;
         }
     }
