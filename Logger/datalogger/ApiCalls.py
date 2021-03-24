@@ -12,6 +12,10 @@ SERVER_PORT = os.getenv("SERVER_PORT")
 #dotenv end
 
 #Function to send a GET Request to API
+def get_plantby_loggerid(logger_id):
+    return requests.get(_url('/logger/active/{}'.format(logger_id)))
+
+#Function to send a GET Request to API
 def get_logger(logger_id):
     return requests.get(_url('/logger/{}'.format(logger_id)))
 
@@ -20,12 +24,12 @@ def post_logger():
     return requests.post(_url('/logger/'), json={})
 
 #Function to send a POST request to API
-def post_log(air_temp,air_humd,soil_hum,log_id):
+def post_log(air_temp,air_humd,soil_hum,plant_id):
     return requests.post(_url('/log/'), json={
         'temperature': air_temp,
         'air_humidity': air_humd,
         'soil_humidity':soil_hum,
-        'loggerId':log_id
+        'plantId':plant_id
         })
 
 #Function to get SERVER and PORT from .env file and create the URL for The API(Server)
