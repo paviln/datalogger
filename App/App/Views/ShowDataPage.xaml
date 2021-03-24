@@ -4,11 +4,26 @@
              x:Class="App.Views.ShowDataPage">
     <ContentPage.Content>
         <StackLayout Padding="5">
-            <Label Text="Logger ID" />
+            <Label Text="Logger Id" />
             <Entry Text="{Binding LoggerId}" />
             <Button Text="Get Data" Command="{Binding ShowDataCommand}" />
-            
-            
+                <Grid BackgroundColor="White" Padding="0" RowSpacing="0">
+                    <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"></ColumnDefinition>
+                    <ColumnDefinition Width="1*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Label Text="Picture" HorizontalOptions="Fill"  Grid.Column="0"  FontSize="Small" FontAttributes="Bold" BackgroundColor="LightGreen" TextColor="Black" HorizontalTextAlignment="Center" Margin="1"/>
+                <Label Text="Minimum Temperature" HorizontalOptions="Fill"  Grid.Column="1"   FontSize="Small" FontAttributes="Bold" BackgroundColor="LightGreen" TextColor="Black" HorizontalTextAlignment="Center" Margin="1"/>
+                </Grid>
+
+            <Grid BackgroundColor="White"  Margin="0" Padding="0" RowSpacing="0" ColumnSpacing="0">
+                <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"></ColumnDefinition>
+                <ColumnDefinition Width="1*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Label Grid.Column="0" Text ="{Binding Plants}" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"></Label>
+                <Label Grid.Column="1" Text ="{Binding MinimumTemperature}" HorizontalOptions="Fill" HorizontalTextAlignment="Center" Margin="1"></Label>
+            </Grid>
         </StackLayout>
 
     </ContentPage.Content>

@@ -66,13 +66,14 @@ namespace App.Services
 
             return response.Data;
         }        
-        public static async Task<string> GetPlantId(string loggerId)
+        public static async Task<Plant> GetPlantId(string loggerId)
         {
             var client = new RestClient(apiBaseUrl);
-            var request = new RestRequest("loggers/active", Method.GET);
+            var request = new RestRequest("logger/active", Method.GET);
             request.AddParameter("loggerId", loggerId);
 
-            var response = await client.ExecuteAsync<string>(request);
+           
+            var response = await client.ExecuteAsync<Plant>(request);
 
             return response.Data;
         }

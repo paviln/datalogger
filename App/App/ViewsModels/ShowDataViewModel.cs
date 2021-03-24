@@ -38,7 +38,7 @@ namespace App.ViewsModels
         private async Task GetData()
         {            
             var plantId = await LoggerService.GetPlantId(loggerId);
-            System.Console.WriteLine(plantId);
+            System.Console.WriteLine(plantId.Id);
         }
     }
 }
