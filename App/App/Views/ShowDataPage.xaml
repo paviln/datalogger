@@ -8,11 +8,11 @@
             <Entry Text="{Binding LoggerId}" />
             <Button Text="Get Data" Command="{Binding ShowDataCommand}" />
             <Label Text="Name"/>
-            <Entry Text="{Binding Name}" />
+            <Entry Text="{Binding Plant.Name}" />
             <Label Text="Minimum temperature" />
-            <Entry Text="{}" />
+            <Entry Text="{Binding Plant.MinimumTemperature}"/>
             <Label Text="Soil type" />
-            <Image Source="{Binding Image}"  HeightRequest="300" WidthRequest="300" />
+            <Image Source="{Binding Plant.Image}"  HeightRequest="300" WidthRequest="300" />
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
