@@ -6,11 +6,11 @@
         <Label Text="Logger Id"/>
         <Entry Text="{Binding LoggerId}" />
         <Label Text="Name"/>
-        <Entry Text="{Binding Plant.Name}" />
+        <Entry Text="{Binding Name}" />
         <Label Text="Minimum temperature" />
-        <Entry Text="{Binding Plant.MinimumTemperature}" />
+        <Entry Text="{Binding MinimumTemperature}" />
         <Label Text="Soil type" />
-        <Picker>
+        <Picker SelectedItem="{Binding SoilType}">
             <Picker.ItemsSource>
                 <x:Array Type="{x:Type x:String}">
                     <x:String>Dry</x:String>

@@ -41,7 +41,8 @@ namespace App.Services
             request.AddHeader("Content-Type", "multipart/form-data");
             request.AddParameter("loggerId", plant.LoggerId);
             request.AddParameter("name", plant.Name);
-            request.AddParameter("loggerId", plant.LoggerId);
+            request.AddParameter("minimumTemperature", plant.MinimumTemperature);
+            request.AddParameter("soilType", (int) plant.SoilType);
             request.AddFile("image", plant.Img.Data.data, "image.jpeg");
 
             var response = await client.ExecutePostAsync(request);

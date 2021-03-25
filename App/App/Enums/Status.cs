@@ -1,5 +1,8 @@
-﻿public enum Status
+﻿namespace App.Enums
 {
-    Active = 1,
-    Done
+    public enum Status
+    {
+        Active = 1,
+        Done
+    }
 }

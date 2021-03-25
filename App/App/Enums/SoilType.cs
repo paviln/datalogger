@@ -1,5 +1,8 @@
-﻿public enum SoilType
+﻿namespace App.Enums
 {
-    Dry = 1,
-    Wet
+    public enum SoilType
+    {
+        Dry = 1,
+        Wet = 2
+    }
 }

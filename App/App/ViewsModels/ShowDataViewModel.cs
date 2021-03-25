@@ -34,7 +34,6 @@ namespace App.ViewsModels
 
         private async Task GetData()
         {
-            Console.WriteLine(LoggerId);
             Plant = await LoggerService.GetPlant(LoggerId);
             if (Plant != null)
             {

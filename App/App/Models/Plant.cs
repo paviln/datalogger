@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using App.Enums;
+using System.Text.Json.Serialization;
 
 namespace App.Models
 {
