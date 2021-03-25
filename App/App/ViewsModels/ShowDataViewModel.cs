@@ -22,6 +22,8 @@ namespace App.ViewsModels
             get { return plant; }
             set { plant = value; OnPropertyChanged(); }
         }
+        private string soilType;
+        public string SoilType { get { return soilType; } set { soilType = value; OnPropertyChanged(); } }
 
         private ImageSource image;
         public ImageSource Image { get { return image; } set { image = value; OnPropertyChanged(); } }

@@ -12,7 +12,15 @@
             <Label Text="Minimum temperature" />
             <Entry Text="{Binding Plant.MinimumTemperature}"/>
             <Label Text="Soil type" />
-            <Image Source="{Binding Plant.Image}"  HeightRequest="300" WidthRequest="300" />
+            <Picker SelectedItem="{Binding Plant.SoilType}">
+                <Picker.ItemsSource>
+                    <x:Array Type="{x:Type x:String}">
+                        <x:String>Dry</x:String>
+                        <x:String>Wet</x:String>
+                    </x:Array>
+                </Picker.ItemsSource>
+            </Picker>
+            <Image Source="{Binding Image}"  HeightRequest="300" WidthRequest="300" />
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
