@@ -4,10 +4,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="App.MainPage">
 
-    <StackLayout Padding="8">
-        <Button Command="{Binding RegisterPageNavCommand}" Text="Register Plant" BackgroundColor="DodgerBlue" FontAttributes="Bold"/>
-        <Button Command="{Binding SecondPageNavCommand}" Text="Show Data" BackgroundColor="DodgerBlue" FontAttributes="Bold"/>
-        <Button Command="{Binding NotificationPageNavCommand}" Text="Notifications" BackgroundColor="DodgerBlue" FontAttributes="Bold"/>
+    <StackLayout Padding="8" VerticalOptions="Center">
+        <Button Command="{Binding RegisterPageNavCommand}" Text="Register Plant" BackgroundColor="Gray" FontAttributes="Bold" />
+        <Button Command="{Binding SecondPageNavCommand}" Text="Show Data" BackgroundColor="Gray" FontAttributes="Bold" Margin="0, 15" />
+        <Button Command="{Binding NotificationPageNavCommand}" Text="Notifications" BackgroundColor="Gray" FontAttributes="Bold" />
     </StackLayout>
    
 </ContentPage>

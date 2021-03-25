@@ -47,6 +47,7 @@ const PlantSchema = new Schema(
       {
         data: Buffer,
         contentType: String,
+        select: false,
       },
       status: {
         type: Number,

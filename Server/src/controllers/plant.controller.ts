@@ -1,6 +1,6 @@
 import {NextFunction, Request, Response} from 'express';
 
-import Plant, {Status} from '../models/plant';
+import Plant, {IPlant, Status} from '../models/plant';
 import Logger from '../models/logger';
 
 const create = async (req: Request, res: Response, next: NextFunction) => {
@@ -43,4 +43,14 @@ const create = async (req: Request, res: Response, next: NextFunction) => {
   });
 };
 
-export {create};
+const getFile = async (req: Request, res: Response, next: NextFunction) => {
+  await Plant.findById(req.params.id, (err: any, plant: IPlant) => {
+    if (err) {
+      res.status(404).send(err);
+    } else {
+      res.status(200).send(plant.img);
+    }
+  }).select('img -_id');
+};
+
+export {create, getFile};

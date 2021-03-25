@@ -1,16 +1,12 @@
-﻿using System;
+﻿using System.Text.Json.Serialization;
 
 namespace App.Models
 {
     public class Logger
     {
-        public double MinimumTemperature { get; set; }
+        [JsonPropertyName("_id")]
+        public string Id { get; set; }
         public Log Logs { get; set; }
         public Plant Plants { get; set; }
-
-        public override string ToString()
-        {
-            return this.MinimumTemperature.ToString();
-        }
     }
 }
