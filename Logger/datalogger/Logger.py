@@ -27,7 +27,6 @@ cet = datetime.now(timezone('Europe/Amsterdam'))
 #GPIO PIN Assigns
 GREEN = 21
 RED = 20
-YELLOW = 16
 
 #Global Variables
 delay = 1
@@ -156,7 +155,9 @@ async def main():
         while True:
             val = await read_soil_humd(0)
             schedule.run_pending()
-            await post_log()
+            #await post_log()
+            await post_logger()
+            time.sleep(2)
             if(val!=0):
                 if(val > 50):
                     GPIO.output(GREEN,1)
