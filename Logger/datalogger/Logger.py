@@ -1,7 +1,6 @@
 ##-----------------------------imports START-----------------------------------------##
 import RPi.GPIO as GPIO
 import json
-from json import JSONEncoder
 import requests
 import spidev
 import os
@@ -11,11 +10,9 @@ import adafruit_am2320
 import board
 import busio
 import enum
-import urllib
 import sys
 import ApiCalls
 import asyncio
-from pytz import timezone
 import schedule
 ##-----------------------------imports END-----------------------------------------##
 loop = asyncio.get_event_loop()
@@ -23,7 +20,6 @@ loop = asyncio.get_event_loop()
 i2c = busio.I2C(board.SCL, board.SDA)
 am2320 = adafruit_am2320.AM2320(i2c)
 
-cet = datetime.now(timezone('Europe/Amsterdam'))
 #GPIO PIN Assigns
 GREEN = 21
 RED = 20
@@ -40,11 +36,11 @@ spi = spidev.SpiDev() #New Object
 spi.open(0,0)
 spi.max_speed_hz = 1000000
 
+#Function to initialize gpio
 def initialize_gpio():
     GPIO.setmode(GPIO.BCM)
     GPIO.setup(GREEN,GPIO.OUT,initial=GPIO.LOW)
     GPIO.setup(RED,GPIO.OUT,initial=GPIO.LOW) 
-    GPIO.setup(YELLOW,GPIO.OUT,initial=GPIO.LOW) 
     GPIO.setwarnings(False)
 
 #Function that sends a GET Request to API to recieve a logger to check whether the logger exists so the
@@ -63,7 +59,7 @@ async def get_data(_idd):
         exists_logger_id = json_logger_object["_id"]
     return exists_logger_id
 
-#Function to Read from YL69 (soil sensor) returns percentage humidity
+#Function to Read from YL38/69 (soil sensor) returns percentage humidity
 async def read_soil_humd(channel):
     val = spi.xfer2([1,(8+channel)<<4,0])
     if(0 <=val [1] <=3):
@@ -102,25 +98,22 @@ async def post_logger():
 async def post_log():
     air_temp, air_hum = await read_temp_humd()
     soil_hum = await read_soil_humd(0)
+    #plant_id = "605c5d1201df280824ecb377"
     plant_id = await get_plant_id()
-
-    print(plant_id)
     resp = await ApiCalls.post_log(air_temp,air_hum,soil_hum,plant_id)
     httpcode = resp.status_code
     if httpcode != 201:
         raise APIError('POST /log/ {}'.format(httpcode))
     else:
         print("Log posted: "+ str(resp.status_code))
-        ##Calls jprint function to print the created LOG in terminal.
         jprint(resp.json())
     
 #Function thats send a GET request to API to GET a plant_ID by LoggerID    
 async def get_plant_id():
     global plant_id
     global logger_id
-    ##Calls the post_logger() function to POST a Logger to generate a Logger_ID
-    logger_id = await post_logger()
-    time.sleep(10)
+    #TODO Implement a verification to check whether the logger_id exists
+    #if it exsists, dont create new logger and use old logger_id instead
     resp = await ApiCalls.get_plantby_loggerid(logger_id)
     httpcode = resp.status_code
     if httpcode != 200:
@@ -132,12 +125,11 @@ async def get_plant_id():
         print("Plant ID recieved: "+ str(resp.status_code))
     return plant_id
 
+#TODO Implement warning flag - Read the minimumtemperature for the specific plant
+#and indicate a warning with an yellow -> red led
 def raise_warning():
     GPIO.output(RED,1)
     print("warning temperature is lower than minimum temperature")
-
-def testprint():
-    print("Im executed every 5th second")
 
 #Function for sorting/printing JSON objects
 def jprint(obj):
@@ -148,16 +140,14 @@ def jprint(obj):
 async def main():
     try:
         initialize_gpio()
-        #time.sleep(delay)
-        #schedule.every().hour.do(get_plantid_by_loggerid) The Scheduler assigns that "post_logger" should be done every hour.
-        #time.sleep(delay)
         #schedule.every().hour.do(post_log) The Scheduler assigns that "post_logger" should be done every hour.
         while True:
-            val = await read_soil_humd(0)
-            schedule.run_pending()
-            #await post_log()
+            newinput = input("Enter to Start program")
             await post_logger()
-            time.sleep(2)
+            inputdd = input("enter to continue.")
+            val = await read_soil_humd(0)
+            schedule.run_pending() #Runs the scheduled jobs.
+            await post_log()
             if(val!=0):
                 if(val > 50):
                     GPIO.output(GREEN,1)
@@ -192,5 +182,6 @@ class Status(enum.Enum):
    DRY = 4
    WET = 5
 
+#Starts the Program and invokes main function
 asyncio.ensure_future(main())
 loop.run_forever()
