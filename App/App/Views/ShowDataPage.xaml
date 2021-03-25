@@ -12,7 +12,7 @@
             <Label Text="Minimum temperature" />
             <Entry Text="{Binding Plant.MinimumTemperature}"/>
             <Label Text="Soil type" />
-            <Picker SelectedItem="{Binding Plant.SoilType}">
+            <Picker SelectedItem="{Binding SoilType}">
                 <Picker.ItemsSource>
                     <x:Array Type="{x:Type x:String}">
                         <x:String>Dry</x:String>

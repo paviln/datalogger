@@ -37,6 +37,7 @@ namespace App.ViewsModels
         private async Task GetData()
         {
             Plant = await LoggerService.GetPlant(LoggerId);
+            SoilType = Plant.SoilType.ToString();
             if (Plant != null)
             {
                 var plantImage = await LoggerService.GetImage(Plant.Id);
